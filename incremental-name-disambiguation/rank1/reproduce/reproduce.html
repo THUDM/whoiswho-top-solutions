@@ -1,0 +1,1382 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+
+<link href='file://C://Users//esfan//AppData//Roaming//Typora/themes/mlike-light.css' rel='stylesheet' type='text/css' /><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; --title-bar-height:20px; }
+.mac-os-11 { --title-bar-height:28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-require-zoom-fix { height: auto; margin-top: 16px; margin-bottom: 16px; }
+.md-require-zoom-fix foreignobject { font-size: var(--mermaid-font-zoom); }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex:2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+
+
+.CodeMirror { height: auto; }
+.CodeMirror.cm-s-inner { background: inherit; }
+.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
+.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
+.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
+.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
+.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
+.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
+.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
+.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
+.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
+.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
+.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
+.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
+.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
+.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
+.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
+.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
+.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
+.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
+.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
+.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
+.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
+.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
+.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
+.cm-negative { color: rgb(221, 68, 68); }
+.cm-positive { color: rgb(34, 153, 34); }
+.cm-header, .cm-strong { font-weight: 700; }
+.cm-del { text-decoration: line-through; }
+.cm-em { font-style: italic; }
+.cm-link { text-decoration: underline; }
+.cm-error { color: red; }
+.cm-invalidchar { color: red; }
+.cm-constant { color: rgb(38, 139, 210); }
+.cm-defined { color: rgb(181, 137, 0); }
+div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
+div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
+.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
+.CodeMirror { position: relative; overflow: hidden; }
+.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
+.CodeMirror-sizer { position: relative; }
+.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; outline: 0px; }
+.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
+.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: auto hidden; }
+.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
+.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
+.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 10px; z-index: 3; overflow-y: hidden; }
+.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
+.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
+.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
+.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
+.CodeMirror-lines { cursor: text; }
+.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
+.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
+.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
+.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
+.CodeMirror-linebackground { position: absolute; inset: 0px; z-index: 0; }
+.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
+.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
+.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
+.CodeMirror-measure pre { position: static; }
+.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
+.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
+.cm-searching { background: rgba(255, 255, 0, 0.4); }
+span.cm-underlined { text-decoration: underline; }
+span.cm-strikethrough { text-decoration: line-through; }
+.cm-tw-syntaxerror { color: rgb(255, 255, 255); background-color: rgb(153, 0, 0); }
+.cm-tw-deleted { text-decoration: line-through; }
+.cm-tw-header5 { font-weight: 700; }
+.cm-tw-listitem:first-child { padding-left: 10px; }
+.cm-tw-box { border-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: inherit; border-top-width: 0px !important; }
+.cm-tw-underline { text-decoration: underline; }
+@media print {
+  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
+}
+
+
+/* 字体  Font: SourceHanSans*/
+/* 代码块字体  Code block font: Fira Code */
+@font-face {
+    font-family: 'Fira Code';
+    src: url('file:///C://Users//esfan//AppData//Roaming//Typora/themes/mlike/woff2/FiraCode-Regular.woff2') format('woff2'),
+    url('file:///C://Users//esfan//AppData//Roaming//Typora/themes/mlike/ttf/FiraCode-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}/*ver 0.2.0 mlike*/
+/*Auto Dark or Light*/
+@import "";
+
+/*noinspection CssInvalidAtRule*/
+@include-when-export url(https://cdn.bootcdn.net/ajax/libs/firacode/5.2.0/fira_code.min.css);
+
+:root {
+    --border-color: #4fa8d4;
+    --window-border: 1px solid #4fa8d4;
+    /*--panel-border-color: #4fa8d4;*/
+    --panel-border-color: #000000;
+    --link-color: rgb(0, 185, 115);
+    --contra-link-color: rgb(255, 70, 140);
+    --active-file-border-color: var(--link-color);
+    --item-hover-bg-color: rgba(229, 229, 229, 0.59);
+    --active-file-bg-color: var(--item-hover-bg-color);
+    --code-bg-color: var(--code-block-bg-color);
+
+    --rawblock-edit-panel-bd: var(--code-block-bg-color);
+    /*Base font*/
+    --font-family: '思源黑体 CN', 'Segoe UI', SegoeUI, 'Microsoft YaHei', 微软雅黑, Arial, sans-serif;
+    --code-font-family: 'Fira Code', SFMono-Regular, Consolas;
+
+}
+
+/*Light*/
+@media (prefers-color-scheme: light) {
+    :root {
+        /*Background color*/
+        --bg-color: #ffffff;
+        --side-bar-bg-color: #ffffff;
+        /*Text color*/
+        --text-color: #282c34;
+        --main-text-color: #000000;
+        /*Code block bg color*/
+        --code-block-bg-color: #f5f5f5;
+        --code-bg-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+/*Dark*/
+@media (prefers-color-scheme: dark) {
+    :root {
+        /*Background color*/
+        --bg-color: #000000;
+        --side-bar-bg-color: #000000;
+        /*Text color*/
+        --text-color: #f5f5f5;
+        --main-text-color: #ffffff;
+        /*Code block bg color*/
+        --code-block-bg-color: #282c34;
+        --code-bg-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+html {
+    background-color: var(--bg-color);
+    font-size: 15px;
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+#write {
+    max-width: 900px;
+    /* text-align: justify; */
+    line-height: 2;
+}
+
+/*YAML front matter*/
+pre.md-meta-block {
+    padding: 10px 20px;
+    background-color: var(--code-block-bg-color);
+    color: var(--text-color);
+    border-bottom: 1px dashed var(--text-color);
+    font-family: var(--code-font-family);
+}
+
+/*Headings*/
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+    color: var(--main-text-color);
+}
+
+#write h1 {
+    font-size: 1.9rem;
+}
+
+#write h1 span {
+    padding-bottom: 10px;
+    /* 2021-07-10-143107 清除 h1 的下划线 
+    border-bottom: 1px solid var(--text-color);
+    transition: border-bottom-color 0.4s ease-in-out 0s; */
+}
+
+/* 2021-07-10-143107 清除 h1 的下划线
+#write h1:hover > span {
+    border-bottom: 1px solid transparent;
+} */
+
+#write h2 {
+    font-size: 1.65rem;
+}
+
+#write h2 span {
+    border-bottom: 1px solid var(--text-color);
+    transition: border-bottom-color 0.4s ease-in-out 0s;
+} 
+
+#write h2:hover > span {
+    border-bottom: 1px solid transparent;
+}
+
+#write h3 {
+    font-size: 1.45rem;
+}
+
+#write h4 {
+    font-size: 1.3rem;
+}
+
+#write h5 {
+    font-size: 1.2rem;
+}
+
+#write h6 {
+    font-size: 1.1rem;
+}
+
+/*Table*/
+#write table {
+    background-color: var(--code-block-bg-color);
+    margin: 20px 0;
+    border-collapse: separate;
+    border-radius: 5px;
+}
+
+
+#write table td {
+    padding: 12px 24px;
+    border-left: 1px dashed var(--text-color);
+    border-bottom: 1px dashed var(--text-color);
+}
+
+#write table th {
+    padding: 12px 24px;
+    border-left: 1px solid var(--text-color);
+    border-bottom: 1px solid var(--text-color);
+}
+
+#write table td:hover, #write table th:hover {
+    background-color: rgba(140, 140, 140, .2);
+}
+
+#write table tr td:first-child, #write table tr th:first-child {
+    border-left: 0;
+}
+
+#write table tr:last-child td {
+    border-bottom: 0;
+}
+
+#write table tr:first-child th:first-child {
+    border-top-left-radius: 5px;
+}
+
+#write table tr:first-child th:last-child {
+    border-top-right-radius: 5px;
+}
+
+#write table tr:last-child td:first-child {
+    border-bottom-left-radius: 5px;
+}
+
+#write table tr:last-child td:last-child {
+    border-bottom-right-radius: 5px;
+}
+
+/*Table control block*/
+.arrow::after {
+    border-bottom-color: var(--border-color) !important;
+}
+
+.md-grid-board-wrap.md-reset.code-tooltip-content {
+    padding-left: 12%;
+}
+
+.md-table-edit .popover-title {
+    padding: 8px 0;
+}
+
+.md-table-edit .md-table-resize-popover {
+    border: 1px dashed var(--border-color);
+    background-color: var(--code-block-bg-color);
+}
+
+.md-table-edit .md-table-resize-popover table {
+    border-collapse: separate;
+}
+
+.md-table-edit .md-table-resize-popover table td {
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+.md-table-edit .md-grid-board tr[row='1'] {
+    background: #66666611;
+}
+
+.dropdown-menu {
+    border: 1px dashed var(--border-color);
+}
+
+/*TODO: md-tooltip-remove border*/
+
+/*Lists*/
+/* TODO: UL, OL*/
+#write input[type=checkbox] {
+    height: 1rem;
+    width: 1rem;
+    margin-top: 10px;
+}
+
+#write .task-list-item .md-line, #write .task-list-item .md-plain {
+    margin-left: 10px;
+}
+
+/*Blockquote*/
+#write blockquote {
+    background-color: var(--code-block-bg-color);
+    color: var(--main-text-color);
+    margin: 20px 0;
+    padding: 20px !important;
+    border: 1px solid var(--bg-color);
+    transition: border 1s;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#write blockquote:hover {
+    border: 1px solid var(--border-color);
+}
+
+/*Hr*/
+hr {
+    color: var(--text-color);
+}
+
+hr:hover {
+    color: var(--border-color);
+}
+
+/*Mermaid、 flow sequence */
+.md-diagram-panel {
+    max-width: 900px;
+    margin-top: 60px;
+    background: var(--code-block-bg-color);
+}
+
+.md-diagram-panel svg span {
+    color: var(--text-color);
+}
+
+.md-diagram-panel svg .edgePath .path {
+    stroke: var(--border-color);
+}
+
+.md-diagram-panel svg marker path {
+    fill: var(--border-color);
+}
+
+.md-diagram-panel svg rect[fill="var(--bg-color)"] {
+    fill: var(--code-block-bg-color) !important;
+}
+
+.md-diagram-panel svg .loopText,
+.md-diagram-panel svg .titleText {
+    fill: var(--text-color) !important;
+}
+
+/*Footnote definition*/
+sup.md-footnote {
+    color: var(--main-text-color) !important;
+    font-weight: 300 !important;
+    background: none !important;
+}
+
+.md-def-footnote .md-def-name {
+    padding-right: 1ch;
+    font-weight: 300;
+    color: var(--text-color);
+}
+
+.md-def-footnote .md-def-name:before {
+    content: '[';
+    color: var(--text-color);
+}
+
+.md-def-footnote .md-def-name:after {
+    content: ']';
+    color: var(--text-color);
+}
+
+/*Code-Block-Styles*/
+.md-fences {
+    font-family: var(--code-font-family);
+    background-color: var(--code-block-bg-color);
+    cursor: default;
+    color: var(--text-color);
+    margin: 20px 0;
+    padding: 35px 20px 20px !important;
+    border-radius: 5px;
+}
+
+.md-fences::before {
+    content: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1NCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDU0IDE0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSI+CiAgICAgICAgPGNpcmNsZSBjeD0iNiIgY3k9IjYiIHI9IjYiIGZpbGw9IiNGRjVGNTYiIHN0cm9rZT0iI0UwNDQzRSIgc3Ryb2tlLXdpZHRoPSIuNSI+PC9jaXJjbGU+CiAgICAgICAgPGNpcmNsZSBjeD0iMjYiIGN5PSI2IiByPSI2IiBmaWxsPSIjRkZCRDJFIiBzdHJva2U9IiNERUExMjMiIHN0cm9rZS13aWR0aD0iLjUiPjwvY2lyY2xlPgogICAgICAgIDxjaXJjbGUgY3g9IjQ2IiBjeT0iNiIgcj0iNiIgZmlsbD0iIzI3QzkzRiIgc3Ryb2tlPSIjMUFBQjI5IiBzdHJva2Utd2lkdGg9Ii41Ij48L2NpcmNsZT4KICAgIDwvZz4KPC9zdmc+');
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    z-index: 5;
+}
+
+.md-fences:hover::before {
+    content: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTQiIGhlaWdodD0iMTQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8Y2lyY2xlIGlkPSJzdmdfMiIgc3Ryb2tlLXdpZHRoPSIwLjUiIHN0cm9rZT0iI0UwNDQzRSIgZmlsbD0iI0ZGNUY1NiIgcj0iNiIgY3k9IjciIGN4PSI2LjgwNzY5MyIvPgogICAgPGNpcmNsZSBpZD0ic3ZnXzMiIHN0cm9rZS13aWR0aD0iMC41IiBzdHJva2U9IiNERUExMjMiIGZpbGw9IiNGRkJEMkUiIHI9IjYiIGN5PSI3IiBjeD0iMjYuODA3NjkzIi8+CiAgICA8Y2lyY2xlIGlkPSJzdmdfNCIgc3Ryb2tlLXdpZHRoPSIwLjUiIHN0cm9rZT0iIzFBQUIyOSIgZmlsbD0iIzI3QzkzRiIgcj0iNiIgY3k9IjciIGN4PSI0Ni44MDc2OTMiLz4KICAgIDxsaW5lIHRyYW5zZm9ybT0icm90YXRlKDQ1IDYuNzM4NTUxNjE2NjY4NzA2LDcuMDg3MTQwNTYwMTUwMTQ2KSAiIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiCiAgICAgICAgICBzdHJva2UtbGluZWpvaW49Im51bGwiIGlkPSJzdmdfMTMiIHkyPSI3LjA4NzE0MSIgeDI9IjExLjU3MzIyMiIgeTE9IjcuMDg3MTQxIiB4MT0iMS45MDM4ODIiCiAgICAgICAgICBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsPSJub25lIi8+CiAgICA8bGluZSB0cmFuc2Zvcm09InJvdGF0ZSgtNDUgNi43Mzg1NTE2MTY2Njg3MDIsNy4wODcxNDA1NjAxNTAxNDYpICIgc3Ryb2tlPSIjNTU1IiBzdHJva2UtbGluZWNhcD0ibnVsbCIKICAgICAgICAgIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z18xNSIgeTI9IjcuMDg3MTQxIiB4Mj0iMTEuNTczMjIyIiB5MT0iNy4wODcxNDEiIHgxPSIxLjkwMzg4MiIKICAgICAgICAgIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiIGZpbGw9Im5vbmUiLz4KICAgIDxsaW5lIHN0cm9rZT0iIzU1NSIgc3Ryb2tlLWxpbmVjYXA9Im51bGwiIHN0cm9rZS1saW5lam9pbj0ibnVsbCIgaWQ9InN2Z18xNiIgeTI9IjcuMDg3MTQxIiB4Mj0iMzEuNzY1NTAzIgogICAgICAgICAgeTE9IjcuMDg3MTQxIiB4MT0iMjIuMDk2MTYyIiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIiBmaWxsPSJub25lIi8+CiAgICA8cGF0aCB0cmFuc2Zvcm09InJvdGF0ZSg5MCA0NS42Nzc3Njg3MDcyNzUzOSw2LjMwMTg5ODQ3OTQ2MTY3NCkgIiBpZD0ic3ZnXzE4IgogICAgICAgICAgZD0ibTQ1LjI5MzE1MSw2LjY4NjUxNGwwLC0wLjc2OTIzMWwwLjc2OTIzMSwwLjc2OTIzMWwtMC43NjkyMzEsMHoiIGZpbGwtb3BhY2l0eT0ibnVsbCIgc3Ryb2tlLW9wYWNpdHk9Im51bGwiCiAgICAgICAgICBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iIzU1NSIgZmlsbD0ibm9uZSIvPgogICAgPHBhdGggdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDQ3Ljk4NTQ1ODM3NDAyMzQ0NSw4LjgwMTg5ODAwMjYyNDUxKSAiIGlkPSJzdmdfMTkiCiAgICAgICAgICBkPSJtNDcuNjAwODQyLDkuMTg2NTE0bDAsLTAuNzY5MjNsMC43NjkyMywwLjc2OTIzbC0wLjc2OTIzLDB6IiBmaWxsLW9wYWNpdHk9Im51bGwiIHN0cm9rZS1vcGFjaXR5PSJudWxsIgogICAgICAgICAgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiM1NTUiIGZpbGw9Im5vbmUiLz4KPC9zdmc+");
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    z-index: 5;
+}
+
+.md-fences:hover::after {
+    content: attr(lang);
+    color: var(--text-color);
+    font-size: .8rem;
+    font-style: italic;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 5;
+}
+
+.md-fences .cm-s-inner {
+    cursor: text;
+}
+
+.CodeMirror-code > div:active .CodeMirror-gutter-wrapper {
+    display: none;
+}
+
+.CodeMirror-gutters {
+    background: var(--code-block-bg-color);
+    border-right: 0
+}
+
+.CodeMirror-guttermarker {
+    color: #ac4142
+}
+
+.CodeMirror-guttermarker-subtle {
+    color: #b0b0b0
+}
+
+.CodeMirror-linenumber {
+    color: #b0b0b0
+}
+
+.CodeMirror-cursor {
+    height: 1.5rem !important;
+    border-left: 1px solid var(--border-color) !important;
+}
+
+.cm-s-inner span.cm-header {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-quote {
+    color: #5c6370;
+    font-style: italic
+}
+
+.cm-s-inner span.cm-negative {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-positive {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-strong {
+    color: #d19a66;
+    font-weight: 700
+}
+
+.cm-s-inner span.cm-header .cm-strong {
+    color: #d19a66;
+    font-weight: 700
+}
+
+.cm-s-inner span.cm-em {
+    color: #c678dd;
+    font-style: italic
+}
+
+.cm-s-inner span.cm-header .cm-em {
+    color: #c678dd;
+    font-style: italic
+}
+
+.cm-s-inner span.cm-tag {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-attribute {
+    color: #d19a66
+}
+
+.cm-s-inner span.cm-link {
+    color: #98c379;
+    border-bottom: solid 1px #98c379
+}
+
+.cm-s-inner span.cm-builtin {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-keyword {
+    color: #c678dd
+}
+
+.cm-s-inner span.cm-def {
+    color: #e5c07b
+}
+
+.cm-s-inner span.cm-atom {
+    color: #d19a66
+}
+
+.cm-s-inner span.cm-number {
+    color: #d19a66
+}
+
+.cm-s-inner span.cm-property {
+    color: #56b6c2
+}
+
+.cm-s-inner span.cm-qualifier {
+    color: #d19a66
+}
+
+.cm-s-inner span.cm-variable {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-string {
+    color: #98c379
+}
+
+.cm-s-inner span.cm-punctuation {
+    color: #abb2bf
+}
+
+.cm-s-inner span.cm-operator {
+    color: #56b6c2
+}
+
+.cm-s-inner span.cm-meta {
+    color: #abb2bf
+}
+
+.cm-s-inner span.cm-bracket {
+    color: #abb2bf
+}
+
+.cm-s-inner span.cm-comment {
+    color: #5c6370;
+    font-style: italic
+}
+
+.cm-s-inner span.cm-error {
+    color: #e06c75
+}
+
+.cm-s-inner span.cm-m-css.cm-variable {
+    color: #828997
+}
+
+.cm-s-inner span.cm-m-css.cm-property {
+    color: #abb2bf
+}
+
+.cm-s-inner span.cm-m-css.cm-atom {
+    color: #56b6c2
+}
+
+.cm-s-inner span.cm-m-css.cm-builtin {
+    color: #56b6c2
+}
+
+.cm-s-inner span.cm-m-lua.cm-variable {
+    color: #56b6c2
+}
+
+#write .ty-input {
+    cursor: text;
+    /* text-align: justify; */
+    font-size: 0.9rem;
+    outline: none;
+    border: 0;
+}
+
+.code-tooltip {
+    border: var(--window-border);
+}
+
+#ty-auto-suggest, #fences-auto-suggest, .auto-suggest-container {
+    background-color: var(--code-block-bg-color);
+    color: var(--text-color);
+    border: var(--window-border);
+}
+
+#math-inline-preview-content, .md-tooltip-remove {
+    z-index: 3;
+    border: 1px solid var(--border-color) !important;
+    padding-top: 10px !important;
+    background: var(--code-block-bg-color) !important;
+}
+
+/*Inline Elements*/
+code {
+    font-family: var(--code-font-family);
+    color: var(--main-text-color);
+    background-color: var(--code-bg-color);
+    padding: 0 .4rem;
+    margin: 0 .3rem;
+    font-weight: 300;
+    border-left: 1px dashed var(--border-color);
+    border-right: 1px dashed var(--border-color);
+}
+
+strong {
+    color: var(--main-text-color);
+    font-weight: 600;
+}
+
+em {
+
+}
+
+#write a, #write a:link, #write a:visited {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+#write a:link:active,
+#write a:link:focus,
+#write a:link:hover,
+#write a:visited:active,
+#write a:visited:focus,
+#write a:visited:hover,
+#write a:focus,
+#write a:hover {
+    text-decoration: underline;
+}
+
+img {
+
+}
+
+
+mark {
+    background-color: var(--link-color);
+    padding: 0 .4rem;
+    margin: 0 .3rem;
+    font-weight: 500;
+    color: var(--contra-link-color);
+}
+
+del {
+
+}
+
+sub, sup {
+    color: var(--main-text-color);
+}
+
+
+/********/
+/*Others*/
+/********/
+::-webkit-scrollbar-thumb {
+    background: rgba(79, 168, 212, 0.8);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(79, 168, 212, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(79, 168, 212, 0.7);
+}
+
+.md-hover-tip .md-arrow:after {
+    background: var(--border-color);
+}
+
+#typora-sidebar {
+    border-right: 1px solid var(--text-color);
+}
+
+.sidebar-tabs {
+    border-bottom: 1px solid var(--text-color) !important;
+}
+
+#math-inline-preview-content, .md-tooltip-remove {
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+    padding-top: 10px !important;
+    background: var(--code-block-bg-color) !important;
+}
+
+
+#ty-tooltip {
+    background: var(--code-block-bg-color);
+    border: 1px dashed var(--border-color);
+    color: var(--text-color);
+}
+
+.modal-content {
+    border: 2px solid var(--border-color);
+}
+
+.file-tree-node.active > .file-node-background, .typora-sourceview-on #toggle-sourceview-btn {
+    background: var(--item-hover-bg-color);
+}
+
+#typora-quick-open {
+    background-color: var(--code-block-bg-color);
+    border: var(--window-border);
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    scrollbar-face-color: var(--border-color);
+}
+
+#typora-quick-open #typora-quick-open-input, #typora-quick-open-input input {
+    background-color: var(--code-block-bg-color);
+}
+
+/*
+Megamenu menu unibody-window TODO: ***
+*/
+/*megamenu-menu-list*/
+@media (prefers-color-scheme: dark) {
+    #megamenu-menu-sidebar {
+        background: var(--code-block-bg-color);
+    }
+
+    .megamenu-menu-list li a.active, .megamenu-menu-list:not(.saved) li a:hover {
+        background: var(--bg-color) !important;
+    }
+}
+
+#megamenu-content, .megamenu-menu, .megamenu-section, .unibody-window header {
+    background-color: var(--bg-color);
+    color: var(--main-text-color);
+    background-image: none !important;
+}
+
+.megamenu-menu-header #megamenu-menu-header-title:before,
+.megamenu-menu-header #megamenu-menu-header-title {
+    color: var(--main-text-color);
+}
+
+.megamenu-menu-list {
+    border: 0;
+}
+
+.unibody-window select {
+    background: var(--bg-color);
+}
+
+.unibody-window .long-btn {
+    color: var(--text-color);
+}
+
+.megamenu-menu-list:not(.saved) li a:hover, .megamenu-menu-list li a.active {
+    background: var(--code-block-bg-color);
+    color: var(--text-color);
+}
+
+.megamenu-section a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+/*Menu-Open*/
+#recent-file-panel tbody tr:nth-child(2n-1), #recent-file-panel-action-btn {
+    background-color: inherit;
+}
+
+#write h1 {
+    text-align: center;
+    margin-bottom: 1.4rem;
+    margin-top: 1.4rem;
+    line-height: 1.4;
+    /* border-bottom: 1px solid #eee; */
+}
+#write h1 span,#write h1 span:hover {
+    border-bottom: none;
+}
+
+#write {
+    /*width: 90%;*/
+    /* max-width: 50rem; */
+    max-width: 54rem;
+    margin-bottom: 2rem;
+}
+@media print {
+    html {
+        font-size: 14px;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}/*ver 0.2.0 mlike-light*/
+/*Need `mlike.css`*/
+@import "";
+
+:root {
+    /*Background color*/
+    --bg-color: #ffffff;
+    --side-bar-bg-color: #ffffff;
+    /*Text color*/
+    --text-color: #282c34;
+    --main-text-color: #000000;
+    /*Code block bg color*/
+    --code-block-bg-color: #f5f5f5;
+    --code-bg-color: rgba(0, 0, 0, 0.05);
+}
+
+.md-image img {
+    border: 2px solid #660874;
+}
+
+/*ver 0.2.0 mlike-light*/
+/*Need `mlike.css`*/
+@import "";
+
+
+
+/* 侧边栏的目录大纲区: .sidebar-content */
+
+/** initialize css counter */
+#write,
+.sidebar-content,
+.md-toc-content {
+    counter-reset: h2
+}
+
+#write h1,
+.outline-h1,
+.md-toc-item.md-toc-h1 {
+    counter-reset: h2
+}
+
+#write h2,
+.outline-h2,
+.md-toc-item.md-toc-h2 {
+    counter-reset: h3
+}
+
+#write h3,
+.outline-h3,
+.md-toc-item.md-toc-h3 {
+    counter-reset: h4
+}
+
+#write h4,
+.outline-h4,
+.md-toc-item.md-toc-h4 {
+    counter-reset: h5
+}
+
+#write h5,
+.outline-h5,
+.md-toc-item.md-toc-h5 {
+    counter-reset: h6
+}
+
+/** put counter result into headings */
+/* 一级标题不展示 */
+#write h1:before,
+.outline-h1>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h1>.md-toc-inner:before {
+    /* counter-increment: h1;
+    content: counter(h1) ". " */
+}
+
+/* 二级标题 */
+#write h2:before,
+.outline-h2>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h2>.md-toc-inner:before {
+    counter-increment: h2;
+    content: counter(h2) ".   ";
+    /* content: counter(h2) ". " */
+}
+
+/* 三级标题 */
+#write h3:before,
+h3.md-focus.md-heading:before,
+/** override the default style for focused headings */
+.outline-h3>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h3>.md-toc-inner:before {
+    text-decoration: none;
+    counter-increment: h3;
+    /* content: counter(h1) "." counter(h2) "." counter(h3) ". " */
+    /* content: counter(h2) "." counter(h3) ". " */
+    content: counter(h2) "."counter(h3) "   "
+}
+
+/* 四级标题 */
+#write h4:before,
+h4.md-focus.md-heading:before,
+.outline-h4>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h4>.md-toc-inner:before {
+    text-decoration: none;
+    counter-increment: h4;
+    /* content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) ". " */
+    /* content: counter(h2) "." counter(h3) "." counter(h4) ". " */
+    content: counter(h2) "."counter(h3) "."counter(h4) "   "
+}
+
+/* 五级标题 */
+#write h5:before,
+h5.md-focus.md-heading:before,
+.outline-h5>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h5>.md-toc-inner:before {
+    text-decoration: none;
+    counter-increment: h5;
+    /* content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ". " */
+    /* content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) ". " */
+    content: counter(h2) "."counter(h3) "."counter(h4) "."counter(h5) "   "
+}
+
+/* 六级标题 */
+#write h6:before,
+h6.md-focus.md-heading:before,
+.outline-h6>.outline-item>.outline-label:before,
+.md-toc-item.md-toc-h6>.md-toc-inner:before {
+    text-decoration: none;
+    counter-increment: h6;
+    /* content: counter(h1) "." counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ". " */
+    /* content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6) ". " */
+    content: counter(h2) "."counter(h3) "."counter(h4) "."counter(h5) "."counter(h6) "   "
+}
+
+#write>h3.md-focus:before {
+    left: -1.5625rem;
+    top: .375rem;
+}
+
+#write>h4.md-focus:before {
+    left: -1.5625rem;
+    top: .285714286rem;
+}
+
+#write>h5.md-focus:before {
+    left: -1.5625rem;
+    top: .285714286rem;
+}
+
+#write>h6.md-focus:before {
+    left: -1.5625rem;
+    top: .285714286rem;
+}
+/** override the default style for focused headings */
+#write>h3.md-focus:before,
+#write>h4.md-focus:before,
+#write>h5.md-focus:before,
+#write>h6.md-focus:before,
+h3.md-focus:before,
+h4.md-focus:before,
+h5.md-focus:before,
+h6.md-focus:before {
+    color: inherit;
+    border: inherit;
+    border-radius: inherit;
+    position: inherit;
+    left: initial;
+    float: none;
+    top: initial;
+    font-size: inherit;
+    padding-left: inherit;
+    padding-right: inherit;
+    vertical-align: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
+
+
+
+mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+  min-height: 1px;
+  min-width: 1px;
+}
+
+mjx-container[jax="SVG"] > svg a {
+  fill: blue;
+  stroke: blue;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line], svg[data-table] > g > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame], svg[data-table] > g > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed, svg[data-table] > g > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted, svg[data-table] > g > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > g > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"] path[data-c], mjx-container[jax="SVG"] use[data-c] {
+  stroke-width: 3;
+}
+
+g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+
+.MathJax g[data-mml-node="xypic"] path {
+  stroke-width: inherit;
+}
+ :root {--mermaid-font-zoom:1.25em ;} 
+</style><title>复现说明</title>
+</head>
+<body class='typora-export os-windows'><div class='typora-export-content'>
+<div id='write'  class=''><h1 id='ijcai-2021---whoiswho-task1-kingsundad-复现说明'><span>IJCAI 2021 - WhoIsWho Task1-kingsundad 复现说明</span></h1><h2 id='代码执行环境说明'><span>代码执行环境说明</span></h2><p><span>代码运行环境为</span></p><blockquote><p><span>CUDA Version: 10.1  </span></p><p><span>Ubuntu 16.04 LTS</span></p><p><span>Python 3.6.12</span></p></blockquote><p><span>需要安装如下python库(在requirements.txt中)</span></p><blockquote><p><span>xgboost==0.90</span>
+<span>numpy==1.19.2</span>
+<span>pypinyin==0.42.0</span>
+<span>tqdm==4.36.1</span>
+<span>Unidecode==1.2.0</span>
+<span>pyjarowinkler==1.8</span>
+<span>lightgbm==2.3.0</span>
+<span>scipy==1.5.3</span>
+<span>torch==1.7.1</span>
+<span>gensim==3.8.3</span>
+<span>cogdl==0.4.0</span>
+<span>catboost==0.19.1</span>
+<span>scikit_learn==0.24.2</span></p></blockquote><h2 id='代码执行前配置'><span>代码执行前配置</span></h2><p><span>在执行代码之前，需要配置</span><code>whole_config.py</code><span>中以下路径为合适的值</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 11.2px; left: 29px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 25px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>3</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -25px; width: 25px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">data_root = './data/'</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 18px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">feat_root = './feat/'</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">paper_idf_dir = './paper_idf/'</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 79px;"></div><div class="CodeMirror-gutters" style="height: 79px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 25px;"></div></div></div></div></pre><p><code>paper_idf_dir</code><span> 为下载的 IDF 文件存放目录路径。（可以在 </span><a href='https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw' target='_blank' class='url'>https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw</a><span>  passwd: y2ws 下载）</span></p><p><code>data_root</code><span>为存放数据集的目录，其结构如下</span></p><blockquote><p><span>data/</span>
+<span>├── processed_data</span>
+<span>└── raw_data</span>
+<span>├── cna-test</span>
+<span>│   ├── cna_test_unass.json</span>
+<span>│   └── cna_test_unass_pub.json</span>
+<span>├── cna-valid</span>
+<span>│   ├── cna_valid_example.json</span>
+<span>│   ├── cna_valid_unass.json</span>
+<span>│   ├── cna_valid_unass_pub.json</span>
+<span>│   ├── whole_author_profiles.json</span>
+<span>│   └── whole_author_profiles_pub.json</span>
+<span>└── train</span>
+<span>│   ├──  train_author.json</span>
+<span>│   ├── train_pub.json</span></p></blockquote><p><code>feat_root</code><span>为自定义的特征文件存放路径。</span></p><h2 id='快速复现结果'><span>快速复现结果</span></h2><p><span>由于特征生成等步骤执行较慢，这里放出我们当时产生的特征及训练文件，可通过如下方式下载</span></p><ul><li><p><span>百度网盘</span></p><p><span>链接：</span><a href='https://pan.baidu.com/s/18PltLZ0XVnr_cel8_fkR5Q' target='_blank' class='url'>https://pan.baidu.com/s/18PltLZ0XVnr_cel8_fkR5Q</a><span> </span>
+<span>提取码：tj7p</span></p></li></ul><p><span>解压好下载的 </span><code>submit_data.zip</code><span> 后得到</span><code>submit_data</code><span>文件夹，用</span><code>submit_data</code><span>文件夹里的</span><code>data</code><span>和</span><code>feat</code><span>两个文件夹分别将项目中的</span><code>data</code><span>和</span><code>feat</code><span>文件夹进行替换。</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 11.2px; left: 29px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 25px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>1</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -25px; width: 25px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/ml_main.sh</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 26px;"></div><div class="CodeMirror-gutters" style="height: 26px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 25px;"></div></div></div></div></pre><p><code>ml_main.sh</code><span> 负责的工作是训练模型和利用模型来预测测试集的结果。其中的 </span><code>final_cell_list_config</code><span> 即为最终使用的模型结构配置。</span></p><p><span>就可以在当前路径下看见对应的结果文件。</span></p><ul><li><code>result.v1.json</code><span> 为 cna-valid 对应的结果</span></li><li><code>result.v2.json</code><span> 为 cna-test 对应的结果</span></li></ul><p><span>训练好的模型及一些中间结果存放在</span><code>save_model</code><span>文件夹下。</span></p><h2 id='代码执行步骤'><span>代码执行步骤</span></h2><p><span>提交的代码大体上分为如下三个部分</span></p><ol start='' ><li><span>数据预处理</span></li><li><span>特征生成</span></li><li><span>训练及预测</span></li></ol><p><span>每一步执行的详细描述如下。</span></p><h3 id='下载oag-bert预训练语言模型'><span>下载OAG-BERT预训练语言模型</span></h3><p><span>处理特征的时候需要用到OAG-BERT，因此需先下载。</span></p><ul><li><span>百度网盘</span></li></ul><p><span>链接: </span><a href='https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA' target='_blank' class='url'>https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA</a><span></span><br/><span>密码: 1snm  </span></p><p><span>解压好下载的 </span><code>oagbert-v2-sim.zip</code><span> 后得到</span><code>oagbert-v2-sim</code><span>文件夹，将</span><code>oagbert-v2-sim</code><span>文件夹放入项目根目录下的</span><code>saved</code><span>文件夹下。</span></p><h3 id='数据预处理'><span>数据预处理</span></h3><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 11.2px; left: 29px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 25px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>1</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -25px; width: 25px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/data_process.sh</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 26px;"></div><div class="CodeMirror-gutters" style="height: 26px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 25px;"></div></div></div></div></pre><p><code>data_process.sh</code><span> 负责的工作是处理原始数据集，产生多折的训练集和验证集及其他各个需要的中间文件。</span></p><h3 id='特征生成'><span>特征生成</span></h3><p><span>依次执行如下脚本</span></p><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 11.2px; left: 29px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 25px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>4</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -25px; width: 25px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/get_hand_feat.sh</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 18px;">2</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/get_graph_simi_feat.sh</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 18px;">3</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/get_paper_emb.sh</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">4</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/get_bert_simi_feat.sh</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 106px;"></div><div class="CodeMirror-gutters" style="height: 106px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 25px;"></div></div></div></div></pre><p><code>get_hand_feat.sh</code><span> 负责的工作是为各个待分配论文及其对应的候选者产生合适的手工特征。</span></p><p><code>get_graph_simi_feat.sh</code><span> 负责的工作是为各个待分配论文及其对应的候选者产生基于论文网络嵌入的相似度特征。  </span></p><p><code>get_paper_emb.sh</code><span> 负责的工作是按照作者名称，对同名的候选作者发过的论文用OAG-BERT计算论文的表征且暂存，目的是为了后续计算bert_simi feature时，避免对同一篇论文重复计算表征。  </span></p><p><code>get_bert_simi_feat.sh</code><span> 负责的工作是为各个待分配论文及其对应的候选者发过的论文集合计算相关性特征，该相关性特征称为bert_simi feature。  </span></p><h3 id='训练及预测'><span>训练及预测</span></h3><pre class="md-fences md-end-block md-fences-with-lineno ty-contain-cm modeLoaded" spellcheck="false" lang=""><div class="CodeMirror cm-s-inner cm-s-null-scroll CodeMirror-wrap" lang=""><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 11.2px; left: 29px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 25px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>1</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: -25px; width: 25px;"></div><div class="CodeMirror-gutter-wrapper CodeMirror-activeline-gutter" style="left: -25px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt CodeMirror-linenumber-show" style="left: 0px; width: 18px;">1</div></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">sh script/ml_main.sh</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 26px;"></div><div class="CodeMirror-gutters" style="height: 26px; left: 0px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 25px;"></div></div></div></div></pre><p><span>就可以在当前路径下看见对应的结果文件。</span></p><ul><li><code>result.v1.json</code><span> 为 cna-valid 对应的结果</span></li><li><code>result.v2.json</code><span> 为 cna-test 对应的结果</span></li></ul><p><span>训练好的模型及一些中间结果存放在</span><code>save_model</code><span>文件夹下。</span></p><p>&nbsp;</p></div></div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "Node2Vec.py", line 5, in <module>
+    import networkx as nx
+ModuleNotFoundError: No module named 'networkx'
+Traceback (most recent call last):
+  File "Node2Vec.py", line 6, in <module>
+    from nodevectors import Node2Vec
+ModuleNotFoundError: No module named 'nodevectors'
+Making walks... Done, T=7.68
+Mapping Walk Names... Done, T=19.55
+Training W2V... WARNING: gensim word2vec version is unoptimizedTry version 3.6 if on windows, versions 3.7 and 3.8 have had issues
+Done, T=1053.39
+Making walks... Done, T=1.20
+Mapping Walk Names... Done, T=5.86
+Training W2V... WARNING: gensim word2vec version is unoptimizedTry version 3.6 if on windows, versions 3.7 and 3.8 have had issues
+Done, T=212.62
+Making walks... Done, T=11.32
+Mapping Walk Names... Done, T=92.61
+Training W2V... WARNING: gensim word2vec version is unoptimizedTry version 3.6 if on windows, versions 3.7 and 3.8 have had issues
+Done, T=2227.64
+Making walks... Done, T=11.96
+Mapping Walk Names... Done, T=101.66
+Training W2V... WARNING: gensim word2vec version is unoptimizedTry version 3.6 if on windows, versions 3.7 and 3.8 have had issues
+Done, T=2322.46
+Making walks... Done, T=44.24
+Mapping Walk Names... Done, T=360.64
+Training W2V... WARNING: gensim word2vec version is unoptimizedTry version 3.6 if on windows, versions 3.7 and 3.8 have had issues
+Done, T=9407.03
