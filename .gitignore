@@ -1,4 +1,15 @@
 # Byte-compiled / optimized / DLL files
+
+incremental_name_disambiguation/rank1/data/
+incremental_name_disambiguation/rank1/catboost_info/
+incremental_name_disambiguation/rank1/feat/
+incremental_name_disambiguation/rank1/output/
+incremental_name_disambiguation/rank1/paper_idf/
+incremental_name_disambiguation/rank1/reproduce.zip
+incremental_name_disambiguation/rank1/result*
+incremental_name_disambiguation/rank1/save_model
+incremental_name_disambiguation/rank1/saved
+
 __pycache__/
 *.py[cod]
 *$py.class
