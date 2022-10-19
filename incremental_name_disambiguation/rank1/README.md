@@ -1,16 +1,13 @@
-# IJCAI 2021 - WhoIsWho Task1-kingsundad 冠军方案
+# WhoIsWho Task1-kingsundad Top-1 Solution
 
-## 代码执行环境说明
+## Prerequisites
 
-代码运行环境为
 
 > CUDA Version: 10.1  
 >
-> Ubuntu 16.04 LTS
->
-> Python 3.6.12
+> Python 3.7
 
-需要安装如下python库(在requirements.txt中)
+Please install the following Python packages (in requirements.txt)
 
 > xgboost==0.90
 > numpy==1.19.2
@@ -26,61 +23,55 @@
 > catboost==0.19.1
 > scikit_learn==0.24.2
 
-## 代码执行前配置
+## Setup
 
-在执行代码之前，需要配置`whole_config.py`中以下路径为合适的值
+`paper_idf_dir` is the directory for *token IDF* values. (It can be downloaded from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  password: y2ws)
+
+`data_root` reprensents the data directory and its structure follows:
 
 ```
-data_root = './data/'
-feat_root = './feat/'
-paper_idf_dir = './paper_idf/'
+data/
+├── processed_data
+├── raw_data
+│   ├── cna-test
+│   │   ├── cna_test_unass.json
+│   │   └── cna_test_unass_pub.json
+│   ├── cna-valid
+│   │   ├── cna_valid_example.json
+│   │   ├── cna_valid_ground_truth.json
+│   │   ├── cna_valid_unass.json
+│   │   ├── cna_valid_unass_pub.json
+│   │   ├── whole_author_profiles.json
+│   │   └── whole_author_profiles_pub.json
+│   ├── readme.md
+│   └── train
+│       ├── train_author.json
+│       └── train_pub.json
+├── cna-test
+├── cna-valid
+└── train
+
 ```
 
-`paper_idf_dir` 为下载的 IDF 文件存放目录路径。（可以在 https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  passwd: y2ws 下载）
+`feat_root` is the directory to save customized features.
 
-`data_root`为存放数据集的目录，其结构如下
+## Reproduce the results quickly
 
-> data/
-> ├── processed_data
-> └── raw_data
-> ├── cna-test
-> │   ├── cna_test_unass.json
-> │   └── cna_test_unass_pub.json
-> ├── cna-valid
-> │   ├── cna_valid_example.json
-> │   ├── cna_valid_unass.json
-> │   ├── cna_valid_unass_pub.json
-> │   ├── whole_author_profiles.json
-> │   └── whole_author_profiles_pub.json
-> └── train
-> │   ├──  train_author.json
-> │   ├── train_pub.json
+Please download the processed data from https://pan.baidu.com/s/18PltLZ0XVnr_cel8_fkR5Q with password tj7p.
 
-`feat_root`为自定义的特征文件存放路径。
-
-## 快速复现结果
-
-由于特征生成等步骤执行较慢，这里放出我们当时产生的特征及训练文件，可通过如下方式下载
-
-- 百度网盘
-
-  链接：https://pan.baidu.com/s/18PltLZ0XVnr_cel8_fkR5Q 
-  提取码：tj7p
-
-解压好下载的 `submit_data.zip` 后得到`submit_data`文件夹，用`submit_data`文件夹里的`data`和`feat`两个文件夹分别将项目中的`data`和`feat`文件夹进行替换。
+Unzip `submit_data.zip`. Put two directories `data` and `feat` directories in `submit_data` into `whoiswho-top-solutions/incremental_name_disambiguation/rank1/
+`.
 
 ```
 sh script/ml_main.sh
 ```
 
-`ml_main.sh` 负责的工作是训练模型和利用模型来预测测试集的结果。其中的 `final_cell_list_config` 即为最终使用的模型结构配置。
+Output files:
 
-就可以在当前路径下看见对应的结果文件。
+- `result.v1.json` for cna-valid 
+- `result.v2.json` for cna-test 
 
-- `result.v1.json` 为 cna-valid 对应的结果
-- `result.v2.json` 为 cna-test 对应的结果
-
-训练好的模型及一些中间结果存放在`save_model`文件夹下。
+Pretrained models and intermediate results are in the `save_model` directory.
 
 ## 代码执行步骤
 
