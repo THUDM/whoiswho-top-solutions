@@ -1,3 +1,30 @@
+# Rank5 Solution
+
+## Environment
+- Python 3.7
+- pip install -r requirements.txt
+
+## Data preparation
+Create `data` folder in current directory and download raw data from http://whoiswho.biendata.xyz/#/data. The data organization is:
+
+```
+├── data
+│   └── na_v3
+│       ├── cna-test
+│       │   ├── cna_test_unass.json
+│       │   └── cna_test_unass_pub.json
+│       ├── cna-valid
+│       │   ├── cna_valid_example.json
+│       │   ├── cna_valid_ground_truth.json
+│       │   ├── cna_valid_unass.json
+│       │   ├── cna_valid_unass_pub.json
+│       │   ├── whole_author_profiles.json
+│       │   └── whole_author_profiles_pub.json
+│       └── train
+│           ├── train_author.json
+│           └── train_pub.json
+```
+
 ## Running steps
 ```bash
 python code/step1_data_prepare.py 
