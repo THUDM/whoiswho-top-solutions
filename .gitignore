@@ -10,6 +10,19 @@ incremental_name_disambiguation/rank1/result*
 incremental_name_disambiguation/rank1/save_model
 incremental_name_disambiguation/rank1/saved
 
+incremental_name_disambiguation/rank2/baseline/datas/
+incremental_name_disambiguation/rank2/catboost_info/
+incremental_name_disambiguation/rank2/datas/
+incremental_name_disambiguation/rank2/glove.840B.300d.txt
+incremental_name_disambiguation/rank2/models/
+incremental_name_disambiguation/rank2/paper_idf/
+incremental_name_disambiguation/rank2/path_to_oagbert/
+incremental_name_disambiguation/rank2/resource/
+incremental_name_disambiguation/rank2/results/
+
+incremental_name_disambiguation/rank5/data/
+incremental_name_disambiguation/rank5/work/
+
 __pycache__/
 *.py[cod]
 *$py.class
