@@ -1,34 +1,31 @@
-## IJCAI2021 - WhoIsWHo Task1
-##### 运行说明
-1. 运行IJCAI-21-WhoIsWho-baseline-main/splitProUnass.py划分训练和测试集
-2. 运行IJCAI-21-WhoIsWho-baseline-main/evaluation/processCandidate.py获取每个名字对应的作者和论文
-3. 运行IJCAI-21-WhoIsWho-baseline-main/pre_gen_data.py得到训练集和测试集的正负样本、手工特征以及oag embedding
-   在运行这一步前，请在https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  passwd: y2ws 下载数据，放入paper_idf中
-4. 运行IJCAI-21-WhoIsWho-baseline-main/evaluation/get_oag_embedding.py得到valid_unass和test_unass的oag embedding，以及每个数据的oag matching similarity
-    在运行这一步前，请将oagbert-v2-sim放置于IJCAI-21-WhoIsWho-baseline-main/path_to_oagbert下
-    - 百度网盘
-    链接: https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA  
-    密码: 1snm
+# Rank2 Solution
 
-5. 运行build_glove_embeds.py获取所有数据集论文的glove embedding特征
-   在运行这一步前，从https://www.kaggle.com/datasets/takuok/glove840b300dtxt
-   把下载的文件放在主文件夹下
-6. 运行name_utils.py获取所有数据集的作者（机构/关键词/共同作者）特征
-<!-- TOHERE -->
-7. 运行get_unsupervised_features.py获取额外构建的无监督特征（机构词交集、关键词交集、共同作者交集、glove余弦相似度，以及各种ngram tfidf特征）
-<!-- TOHERE -->
-8. 运行node2vec/build_graph.py构建图
-9. 运行node2vec/Node2vec.py训练node2vec并得到node2vec向量
-10. 运行ml_methods.py进行单个模型训练
-11. 运行k_fold_pineline.py进行k_fold训练并得到最终结果
-（注：以上1、3、9步骤由于没有固定随机种子，不保证每次运行结果一致。如有需要，我们可以后续提供）
+## Environments
+- Python 3
+- See requirements.txt
 
+## Running Steps
+```bash 
+python baseline/splitProUnass.py
+python baseline/evaluation/processCandidate.py
+```
 
-#### 运行环境
-见 requirements.txt
+Download files from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw with passwd: y2ws and put them into `paper_idf` directory.
+Download files from https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA with passwd: 1snm and put `oagbert-v2-sim` into `path_to_oagbert` directory.  
+Download GloVe embeddings from https://www.kaggle.com/datasets/takuok/glove840b300dtxt and put it into current directory.
+```bash
+python baseline/pre_gen_data.py
+python baseline/evaluation/get_oag_embedding.py
+python build_glove_embeds.py
+python name_utils.py
+python get_unsupervised_features.py
+python node2vec/build_graph.py
+python node2vec/Node2vec.py
+python ml_methods.py
+python k_fold_pineline.py
+```
 
-
-#### 代码结构
+#### Code Structure
 ```
 .
 ├── datas
@@ -36,7 +33,7 @@
 │       ├── cna-test
 │       ├── cna-valid
 │       └── train
-├── IJCAI-21-WhoIsWho-baseline-main
+├── baseline
 │   ├── character
 │   │   ├── feature_config.py
 │   │   ├── feature_process.py
@@ -82,7 +79,6 @@
 │   ├── semantic
 │   │   ├── config.py
 │   │   └── model.py
-│   ├── path_to_oagbert
 │   ├── README.md
 │   ├── data_process.py
 │   ├── dl_main.py
@@ -142,7 +138,6 @@
 ├── k_fold_pineline.py
 ├── ml_methods.py
 ├── requirements.txt
+├── path-to-oagbert
 └── readme.md
 ```
-
-注：代码结构中展示的是完整复现出结果所需的所有文件。除了模型文件和结果文件外，所有中间结果的json、pkl、bin格式的文件因为较大，暂不提供，可按照代码运行步骤重新生成。
