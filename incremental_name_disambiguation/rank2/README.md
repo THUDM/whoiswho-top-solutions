@@ -39,7 +39,7 @@ cd ...
 export PYTHONPATH="`pwd`:$PYTHONPATH"
 cd incremental_name_disambiguation/rank2
 python baseline/pre_gen_data.py
-python baseline/evaluation/get_oag_embedding.py
+python baseline/evaluation/get_oag_embeddings.py
 python build_glove_embeds.py
 python name_utils.py
 python get_unsupervised_features.py
