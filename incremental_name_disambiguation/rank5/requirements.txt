@@ -1,1 +1,10 @@
-Levenshtein==0.20.4
+gensim==3.4.0
+matplotlib==3.5.1
+numpy==1.21.6
+pandas==1.3.5
+pypinyin==0.42.0
+python_Levenshtein==0.20.7
+scikit_learn==1.0.2
+scipy==1.7.3
+seaborn==0.11.2
+tqdm==4.36.1
