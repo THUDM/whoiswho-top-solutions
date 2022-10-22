@@ -73,38 +73,32 @@ Output files:
 
 Pretrained models and intermediate results are in the `save_model` directory.
 
-## 代码执行步骤
+## Complete Running Steps
 
-提交的代码大体上分为如下三个部分
+The submitted code is roughly divided into the following three parts:
 
-1. 数据预处理
-2. 特征生成
-3. 训练及预测
+1. Data preprocessing
+2. Feature Generation
+3. Training and prediction
 
-每一步执行的详细描述如下。
+A detailed description of the execution of each step is as follows.
 
-### 下载OAG-BERT预训练语言模型
+### Download OAG-BERT Pretraining Model
 
-处理特征的时候需要用到OAG-BERT，因此需先下载。
+Please download the OAG-BERT model from BaiduPan with url https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA and password **1snm**. Unzip `oagbert-v2-sim.zip` and put `oagbert-v2-sim` into the `saved` directory of the project root directory.
 
-- 百度网盘
 
-链接: https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA  
-密码: 1snm  
-
-解压好下载的 `oagbert-v2-sim.zip` 后得到`oagbert-v2-sim`文件夹，将`oagbert-v2-sim`文件夹放入项目根目录下的`saved`文件夹下。
-
-### 数据预处理
+### Preprocess
 
 ```
 sh script/data_process.sh
 ```
 
-`data_process.sh` 负责的工作是处理原始数据集，产生多折的训练集和验证集及其他各个需要的中间文件。
+`data_process.sh` is to process the original data set, generate multi-fold training set and validation set and other required intermediate files.
 
-### 特征生成
+### Feature Generation
 
-依次执行如下脚本
+Execute the following scripts one by one.
 
 ```
 sh script/get_hand_feat.sh
@@ -113,24 +107,17 @@ sh script/get_paper_emb.sh
 sh script/get_bert_simi_feat.sh
 ```
 
-`get_hand_feat.sh` 负责的工作是为各个待分配论文及其对应的候选者产生合适的手工特征。
 
-`get_graph_simi_feat.sh` 负责的工作是为各个待分配论文及其对应的候选者产生基于论文网络嵌入的相似度特征。  
-
-`get_paper_emb.sh` 负责的工作是按照作者名称，对同名的候选作者发过的论文用OAG-BERT计算论文的表征且暂存，目的是为了后续计算bert_simi feature时，避免对同一篇论文重复计算表征。  
-
-`get_bert_simi_feat.sh` 负责的工作是为各个待分配论文及其对应的候选者发过的论文集合计算相关性特征，该相关性特征称为bert_simi feature。  
-
-### 训练及预测
+### Training and Inference
 
 ```
 sh script/ml_main.sh
 ```
 
-就可以在当前路径下看见对应的结果文件。
+Output files:
 
-- `result.v1.json` 为 cna-valid 对应的结果
-- `result.v2.json` 为 cna-test 对应的结果
+- `result.v1.json` for cna-valid 
+- `result.v2.json` for cna-test 
 
-训练好的模型及一些中间结果存放在`save_model`文件夹下。
+Pretrained models and intermediate results are in the `save_model` directory.
 
