@@ -1,8 +1,8 @@
 # Rank2 Solution
 
 ## Environments
-- Python 3
-- See requirements.txt
+- Python 3.7
+- ``` pip install -r requirements.txt```
 
 ## Running Steps
 ```bash 
