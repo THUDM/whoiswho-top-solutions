@@ -212,7 +212,6 @@ if __name__ == "__main__":
     pickle.dump(test_data, open(r'./datas/test_data.pkl', 'wb'))
     pickle.dump(test_embedding_data, open(r'./datas/test_embedding_data.pkl', 'wb'))
     pickle.dump(test_feature_data, open(r'./datas/test_feature_data.pkl', 'wb'))
-    pickle.dump(test_feature_data, open(r'./baseline/datas/test_feature_data.pkl', 'wb'))
     # start = time.time()
     # test_data = pickle.load(open(r'./datas/test_data.pkl', 'rb'))
     # test_embedding_data = pickle.load(open(r'./datas/test_embedding_data.pkl', 'rb'))
