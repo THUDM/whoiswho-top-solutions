@@ -25,7 +25,7 @@ Please install the following Python packages (```pip install -r requirements.txt
 
 ## Setup
 
-`paper_idf_dir` is the directory for *token IDF* values. (It can be downloaded from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  password: y2ws)
+`paper_idf_dir` in current folder is the directory for *token IDF* values. (It can be downloaded from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  password: y2ws)
 
 `data_root` reprensents the data directory and its structure follows:
 
