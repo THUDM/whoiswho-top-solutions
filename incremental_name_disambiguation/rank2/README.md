@@ -35,6 +35,9 @@ Download files from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw with passwd:
 Download files from https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA with passwd: 1snm and put `oagbert-v2-sim` into `path_to_oagbert` directory.  
 Download GloVe embeddings from https://www.kaggle.com/datasets/takuok/glove840b300dtxt and put it into current directory.
 ```bash
+cd ...
+export PYTHONPATH="`pwd`:$PYTHONPATH"
+cd incremental_name_disambiguation/rank2
 python baseline/pre_gen_data.py
 python baseline/evaluation/get_oag_embedding.py
 python build_glove_embeds.py
