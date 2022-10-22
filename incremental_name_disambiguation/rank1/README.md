@@ -7,7 +7,7 @@
 >
 > Python 3.7
 
-Please install the following Python packages (in requirements.txt)
+Please install the following Python packages (```pip install -r requirements.txt```)
 
 > xgboost==0.90
 > numpy==1.19.2
