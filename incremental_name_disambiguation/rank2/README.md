@@ -3,6 +3,7 @@
 ## Environments
 - Python 3.7
 - ``` pip install -r requirements.txt```
+- torch 1.10.0 + cu111
 
 ## Data preparation
 Create `datas` folder in current directory and download raw data from http://whoiswho.biendata.xyz/#/data. The data organization is:
