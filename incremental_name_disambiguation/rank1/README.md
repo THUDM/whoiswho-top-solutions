@@ -3,9 +3,9 @@
 ## Prerequisites
 
 
-> CUDA Version: 10.1  
->
 > Python 3.7
+> 
+> torch 1.10.0 + cu111
 
 Please install the following Python packages (```pip install -r requirements.txt```)
 
@@ -17,7 +17,6 @@ Please install the following Python packages (```pip install -r requirements.txt
 > pyjarowinkler==1.8
 > lightgbm==2.3.0
 > scipy==1.5.3
-> torch==1.7.1
 > gensim==3.8.3
 > cogdl==0.4.0
 > catboost==0.19.1
