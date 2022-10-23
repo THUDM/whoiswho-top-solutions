@@ -1339,8 +1339,8 @@ def get_author_org_coauthor(nameAidPid, paper_infos):
 
 if __name__ == '__main__':
     data_dir = r'./datas/Task1'
-    official_data_dir = r'baseline/datas'
-    # official_data_dir = r'./datas'
+    # official_data_dir = r'baseline/datas'
+    official_data_dir = r'./datas'
     paper_vector_dir = 'resource/glove_embeddings/papers'
     save_dir = r'resource/add_features_to_official_features'
     if not os.path.exists(save_dir):
