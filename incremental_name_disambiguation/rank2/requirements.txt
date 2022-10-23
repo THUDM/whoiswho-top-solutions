@@ -9,7 +9,7 @@ torch==1.7.1
 tqdm==4.32.1
 pyjarowinkler==1.8
 pypinyin==0.41.0
-transformers==4.0.0
+transformers==4.2.1
 joblib==0.13.2
 cogdl==0.3.0
 pinyinsplit==0.1.4
