@@ -89,7 +89,7 @@ Please download the OAG-BERT model from BaiduPan with url https://pan.baidu.com/
 
 ### Preprocess
 
-```
+```bash
 sh script/data_process.sh
 ```
 
@@ -99,9 +99,10 @@ sh script/data_process.sh
 
 Execute the following scripts one by one.
 
-```
+```bash
 sh script/get_hand_feat.sh
 sh script/get_graph_simi_feat.sh
+cp data/raw_data/train/train_pub.json data/processed_data/train/
 sh script/get_paper_emb.sh
 sh script/get_bert_simi_feat.sh
 ```
@@ -109,7 +110,7 @@ sh script/get_bert_simi_feat.sh
 
 ### Training and Inference
 
-```
+```bash
 sh script/ml_main.sh
 ```
 
