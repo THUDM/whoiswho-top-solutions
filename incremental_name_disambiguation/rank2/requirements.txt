@@ -16,3 +16,4 @@ pinyinsplit==0.1.4
 Unidecode==1.2.0
 numpy==1.21.1
 scikit_learn==0.24.2
+lightgbm==3.3.3

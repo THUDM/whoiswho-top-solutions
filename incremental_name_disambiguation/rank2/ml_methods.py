@@ -203,6 +203,7 @@ def train():
               'min_child_weights': 6, 'random_state': 666, 'tree_method': 'gpu_hist', 'gpu_id': 0}
     xgb_model = xgb.XGBClassifier(**params)
     xgb_model.fit(train_x, train_y)
+    os.makedirs("models/", exist_ok=True)
     xgb_model.save_model("models/xgboost.json")
 
     # cab_model = cab.CatBoostClassifier(iterations=1000,

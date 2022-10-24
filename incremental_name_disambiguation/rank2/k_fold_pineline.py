@@ -364,6 +364,7 @@ def k_fold_train(model_save_name, k=5):
         s_t = time.time()
         xgb_model = xgb.XGBClassifier(**params)
         xgb_model.fit(fold_train_x, fold_train_y)
+        os.makedirs("models/{}_fold/".format(k), exist_ok=True)
         xgb_model.save_model("models/{}_fold/xgboost_{}_fold_{}.json".format(k, model_save_name, fold_i))
         end_t = time.time()
         print("finish training. cost {:.5f} s".format(end_t - s_t))
