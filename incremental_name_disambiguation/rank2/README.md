@@ -45,7 +45,7 @@ python build_glove_embeds.py
 python name_utils.py
 python get_unsupervised_features.py
 python node2vec/build_graph.py
-python node2vec/Node2vec.py
+python node2vec/Node2Vec.py
 python ml_methods.py
 python k_fold_pineline.py
 ```
