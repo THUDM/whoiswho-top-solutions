@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import os
 import numpy as np
 import _pickle as pickle
 from tqdm import tqdm, trange
@@ -154,17 +155,18 @@ def save_graph(graph, path_to_save):
 
 if __name__ == '__main__':
     # ============================== 获取作者关键词 ==============================
-    train_nameAidPid = json.load(open(r'./baseline/datas/train_proNameAuthorPubs.json'))
+    train_nameAidPid = json.load(open(r'./datas/train_proNameAuthorPubs.json'))
     train_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
     train_author_top_keywords = get_author_top_keywords(train_nameAidPid, train_paper_infos)
+    os.makedirs("resource/node2vec", exist_ok=True)
     pickle.dump(train_author_top_keywords, open(r'./resource/node2vec/train_author_top_keywords.pkl', 'wb'))
 
-    test_nameAidPid = json.load(open(r'./baseline/datas/test_proNameAuthorPubs.json'))
+    test_nameAidPid = json.load(open(r'./datas/test_proNameAuthorPubs.json'))
     test_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
     test_author_top_keywords = get_author_top_keywords(test_nameAidPid, test_paper_infos)
     pickle.dump(test_author_top_keywords, open(r'./resource/node2vec/test_author_top_keywords.pkl', 'wb'))
 
-    whole_nameAidPid = json.load(open(r'./baseline/datas/proNameAuthorPubs.json'))
+    whole_nameAidPid = json.load(open(r'./datas/proNameAuthorPubs.json'))
     whole_paper_infos = json.load(open(r'./datas/Task1/cna-valid/whole_author_profiles_pub.json'))
     whole_author_top_keywords = get_author_top_keywords(whole_nameAidPid, whole_paper_infos)
     pickle.dump(whole_author_top_keywords, open(r'./resource/node2vec/whole_author_top_keywords.pkl', 'wb'))
@@ -187,10 +189,10 @@ if __name__ == '__main__':
     pickle.dump(test_unass_keywords, open(r'./resource/node2vec/test_unass_paper_keywords.pkl', 'wb'))
 
     # ======================================= build train graph =====================================
-    train_nameAidPid = json.load(open(r'./baseline/datas/train_proNameAuthorPubs.json'))
+    train_nameAidPid = json.load(open(r'./datas/train_proNameAuthorPubs.json'))
     train_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
-    train_author_ass = json.load(open(r'./baseline/datas/train_author_profile.json'))
-    train_author_unass = json.load(open(r'./baseline/datas/train_author_unass.json'))
+    train_author_ass = json.load(open(r'./datas/train_author_profile.json'))
+    train_author_unass = json.load(open(r'./datas/train_author_unass.json'))
     train_author_top_keywords = pickle.load(open(r'./resource/node2vec/train_author_top_keywords.pkl', 'rb'))
     train_paper_keywords = pickle.load(open(r'./resource/node2vec/train_paper_keywords.pkl', 'rb'))
 
@@ -213,12 +215,12 @@ if __name__ == '__main__':
     save_graph(train_graph, r'./resource/node2vec/train_graph.txt')
 
     # ======================================= build test graph =====================================
-    test_nameAidPid = json.load(open(r'./baseline/datas/test_proNameAuthorPubs.json'))
+    test_nameAidPid = json.load(open(r'./datas/test_proNameAuthorPubs.json'))
     test_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
     test_author_top_keywords = pickle.load(open(r'./resource/node2vec/test_author_top_keywords.pkl', 'rb'))
     test_paper_keywords = pickle.load(open(r'./resource/node2vec/train_paper_keywords.pkl', 'rb'))
-    test_author_ass = json.load(open(r'./baseline/datas/test_author_profile.json'))
-    test_author_unass = json.load(open(r'./baseline/datas/test_author_unass.json'))
+    test_author_ass = json.load(open(r'./datas/test_author_profile.json'))
+    test_author_unass = json.load(open(r'./datas/test_author_unass.json'))
 
     test_ass_papers = []
     for name, name_infos in test_author_ass.items():
@@ -239,7 +241,7 @@ if __name__ == '__main__':
     save_graph(test_graph, r'./resource/node2vec/test_graph.txt')
 
     # ===================================== build valid unass graph =============================
-    whole_nameAidPid = json.load(open(r'./baseline/datas/proNameAuthorPubs.json'))
+    whole_nameAidPid = json.load(open(r'./datas/proNameAuthorPubs.json'))
     whole_paper_infos = json.load(open(r'./datas/Task1/cna-valid/whole_author_profiles_pub.json'))
     whole_author_top_keywords = pickle.load(open(r'./resource/node2vec/whole_author_top_keywords.pkl', 'rb'))
     whole_paper_keywords = pickle.load(open(r'./resource/node2vec/whole_paper_keywords.pkl', 'rb'))
@@ -250,7 +252,7 @@ if __name__ == '__main__':
     save_graph(valid_unass_graph, r'./resource/node2vec/valid_unass_graph.txt')
 
     # ==================================== build test unass graph ==============================
-    whole_nameAidPid = json.load(open(r'./baseline/datas/proNameAuthorPubs.json'))
+    whole_nameAidPid = json.load(open(r'./datas/proNameAuthorPubs.json'))
     whole_paper_infos = json.load(open(r'./datas/Task1/cna-valid/whole_author_profiles_pub.json'))
     whole_author_top_keywords = pickle.load(open(r'./resource/node2vec/whole_author_top_keywords.pkl', 'rb'))
     whole_paper_keywords = pickle.load(open(r'./resource/node2vec/whole_paper_keywords.pkl', 'rb'))
@@ -261,9 +263,9 @@ if __name__ == '__main__':
     save_graph(test_unass_graph, r'./resource/node2vec/test_unass_graph.txt')
 
     # ==================================== build complete graph =====================================
-    train_nameAidPid = json.load(open(r'./baseline/datas/train_proNameAuthorPubs.json'))
-    test_nameAidPid = json.load(open(r'./baseline/datas/test_proNameAuthorPubs.json'))
-    whole_nameAidPid = json.load(open(r'./baseline/datas/proNameAuthorPubs.json'))
+    train_nameAidPid = json.load(open(r'./datas/train_proNameAuthorPubs.json'))
+    test_nameAidPid = json.load(open(r'./datas/test_proNameAuthorPubs.json'))
+    whole_nameAidPid = json.load(open(r'./datas/proNameAuthorPubs.json'))
     train_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
     test_paper_infos = json.load(open(r'./datas/Task1/train/train_pub.json'))
     whole_paper_infos = json.load(open(r'./datas/Task1/cna-valid/whole_author_profiles_pub.json'))
@@ -280,10 +282,10 @@ if __name__ == '__main__':
     test_unass_paper_infos = json.load(open(r'./datas/Task1/cna-test/cna_test_unass_pub.json'))
     test_unass_paper_keywords = pickle.load(open(r'./resource/node2vec/test_unass_paper_keywords.pkl', 'rb'))
 
-    train_author_ass = json.load(open(r'./baseline/datas/train_author_profile.json'))
-    train_author_unass = json.load(open(r'./baseline/datas/train_author_unass.json'))
-    test_author_ass = json.load(open(r'./baseline/datas/test_author_profile.json'))
-    test_author_unass = json.load(open(r'./baseline/datas/test_author_unass.json'))
+    train_author_ass = json.load(open(r'./datas/train_author_profile.json'))
+    train_author_unass = json.load(open(r'./datas/train_author_unass.json'))
+    test_author_ass = json.load(open(r'./datas/test_author_profile.json'))
+    test_author_unass = json.load(open(r'./datas/test_author_unass.json'))
 
     train_ass_papers = []
     for name, name_infos in train_author_ass.items():
