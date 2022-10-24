@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # 改成自己的数据路径
     # data_base = os.path.join(os.environ['DATABASE'], 'WhoIsWho')
-    data_base = "../../data"
+    data_base = "../data"
     
     rw_master = RwW2vClusterMaster(rw_conf=rw_conf, rule_conf=rule_conf, mode=mode,
                                    w2v_model=w2v_model, text_weight=text_weight,

@@ -1,0 +1,6 @@
+tqdm==4.47.0
+numpy==1.18.1
+gensim==3.8.0
+scikit-learn==0.23.1
+pinyin==0.4.0
+nltk==3.7

@@ -16,6 +16,7 @@ def load_json(rfdir, rfname):
 
 
 def dump_json(obj, wfpath, wfname, indent=None):
+    os.makedirs(wfpath, exist_ok=True)
     with codecs.open(join(wfpath, wfname), 'w', encoding='utf-8') as wf:
         json.dump(obj, wf, ensure_ascii=False, indent=indent)
 
@@ -271,6 +272,7 @@ def save_relation(name_pubs_raw, name):
     stopword1 = ['university', 'univ', 'china', 'department', 'dept', 'laboratory', 'lab', 'school', 'al', 'et',
                  'institute', 'inst', 'college', 'chinese', 'beijing', 'journal', 'science', 'international']
 
+    os.makedirs("save/", exist_ok=True)
     f1 = open('save/' + 'paper_author.txt', 'w', encoding='utf-8')
     f2 = open('save/' + 'paper_conf.txt', 'w', encoding='utf-8')
     f3 = open('save/' + 'paper_word.txt', 'w', encoding='utf-8')

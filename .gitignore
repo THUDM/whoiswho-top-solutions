@@ -23,6 +23,25 @@ incremental_name_disambiguation/rank2/results/
 incremental_name_disambiguation/rank5/data/
 incremental_name_disambiguation/rank5/work/
 
+from_scratch/data/
+
+from_scratch/rank1/extract_texts/
+from_scratch/rank1/gen_names/
+from_scratch/rank1/gen_relations/
+from_scratch/rank1/gen_rw/
+from_scratch/rank1/other_gen/
+from_scratch/rank1/res/
+from_scratch/rank1/word2vec/
+
+from_scratch/rank2/gene/
+from_scratch/rank2/genename/
+from_scratch/rank2/genetest/
+from_scratch/rank2/word2vec/
+
+from_scratch/rank3/save/
+from_scratch/rank3/saveName/
+from_scratch/rank3/saved/
+
 __pycache__/
 *.py[cod]
 *$py.class

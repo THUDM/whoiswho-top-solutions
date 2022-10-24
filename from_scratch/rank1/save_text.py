@@ -60,7 +60,7 @@ def extract_text_save(pub_files, out_file):
 if __name__ == '__main__':
     # 改成自己存放数据的路径
     # base = join(os.environ['DATABASE'], 'WhoIsWho')
-    base = "../../data"
+    base = "../data"
     
     train_pub = join(base, 'train', 'train_pub.json')
     valid_pub = join(base, 'sna_valid', 'sna_valid_pub.json')

@@ -140,7 +140,7 @@ def validation(rw_num=10, numwalks=5, walklength=20,  # 随机游走参数
                ):
     #load数据
     # base = '/home/chengyq/projects/whoiswho/data'
-    base = "data/"
+    base = "../data/"
     pubs_raw = load_json(base, "train/train_pub.json")
     name_pubs1 = load_json(base, "train/train_author.json")
 
