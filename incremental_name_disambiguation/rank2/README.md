@@ -50,6 +50,8 @@ python ml_methods.py
 python k_fold_pineline.py
 ```
 
+Results are saved in `results` folder.
+
 #### Code Structure
 ```
 .
