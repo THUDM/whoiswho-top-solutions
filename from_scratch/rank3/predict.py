@@ -136,9 +136,9 @@ def predict(rw_num=10, numwalks=5, walklength=20,  # 随机游走参数
             outlierTH=1.5
             ):
     # base = '/home/chengyq/projects/whoiswho/data'
-    base = "data/"
-    pubs_raw = load_json(base, "sna-test/sna_test_pub.json")
-    name_pubs1 = load_json(base, "sna-test/sna_test_raw.json")
+    base = "../data/"
+    pubs_raw = load_json(base, "sna_test/sna_test_pub.json")
+    name_pubs1 = load_json(base, "sna_test/sna_test_raw.json")
 
     result = {}
 
