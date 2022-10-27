@@ -41,6 +41,7 @@ from_scratch/rank2/word2vec/
 from_scratch/rank3/save/
 from_scratch/rank3/saveName/
 from_scratch/rank3/saved/
+from_scratch/rank3/saveResult/
 
 __pycache__/
 *.py[cod]
