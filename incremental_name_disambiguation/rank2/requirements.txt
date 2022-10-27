@@ -5,7 +5,6 @@ catboost==0.26
 nodevectors==0.1.23
 nltk==3.4.4
 regex==2020.11.13
-torch==1.7.1
 tqdm==4.32.1
 pyjarowinkler==1.8
 pypinyin==0.41.0
