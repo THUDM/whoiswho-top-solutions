@@ -26,33 +26,9 @@ Please install the following Python packages (```pip install -r requirements.txt
 
 `paper_idf_dir` in current folder is the directory for *token IDF* values. (It can be downloaded from https://pan.baidu.com/s/1g1w2m20V4WPj0YNGYyF8Tw  password: y2ws)
 
-`data_root` reprensents the data directory and its structure follows:
+`data` reprensents the data directory.
 
-```
-data/
-├── processed_data
-├── raw_data
-│   ├── cna-test
-│   │   ├── cna_test_unass.json
-│   │   └── cna_test_unass_pub.json
-│   ├── cna-valid
-│   │   ├── cna_valid_example.json
-│   │   ├── cna_valid_ground_truth.json
-│   │   ├── cna_valid_unass.json
-│   │   ├── cna_valid_unass_pub.json
-│   │   ├── whole_author_profiles.json
-│   │   └── whole_author_profiles_pub.json
-│   ├── readme.md
-│   └── train
-│       ├── train_author.json
-│       └── train_pub.json
-├── cna-test
-├── cna-valid
-└── train
-
-```
-
-`feat_root` is the directory to save customized features.
+`feat` is the directory to save customized features.
 
 ## Reproduce the results quickly
 
@@ -85,6 +61,32 @@ A detailed description of the execution of each step is as follows.
 ### Download OAG-BERT Pretraining Model
 
 Please download the OAG-BERT model from BaiduPan with url https://pan.baidu.com/s/11L3wOSBn2HfHrvNbOJQdoA and password **1snm**. Unzip `oagbert-v2-sim.zip` and put `oagbert-v2-sim` into the `saved` directory of the project root directory.
+
+Make sure that the `data` directory in current folder is like follows:
+
+```
+data/
+├── processed_data
+├── raw_data
+│   ├── cna-test
+│   │   ├── cna_test_unass.json
+│   │   └── cna_test_unass_pub.json
+│   ├── cna-valid
+│   │   ├── cna_valid_example.json
+│   │   ├── cna_valid_ground_truth.json
+│   │   ├── cna_valid_unass.json
+│   │   ├── cna_valid_unass_pub.json
+│   │   ├── whole_author_profiles.json
+│   │   └── whole_author_profiles_pub.json
+│   ├── readme.md
+│   └── train
+│       ├── train_author.json
+│       └── train_pub.json
+├── cna-test
+├── cna-valid
+└── train
+
+```
 
 
 ### Preprocess
