@@ -1,4 +1,4 @@
-# WhoIsWho Task1-kingsundad Top-1 Solution
+# WhoIsWho Task1 Top-1 Solution (Team Name: kingsundad)
 
 ## Prerequisites
 
