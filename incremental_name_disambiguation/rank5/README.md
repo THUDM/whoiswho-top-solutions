@@ -1,4 +1,4 @@
-# Rank5 Solution
+# Rank5 Solution (Team Name: 数据魔术师)
 
 ## Environment
 - Python 3.7
