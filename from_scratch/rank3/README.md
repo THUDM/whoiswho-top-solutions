@@ -1,4 +1,4 @@
-# Top 3 Solution
+# Top 3 Solution (Team Name: liub)
 
 ## Environment
 - Python 3.7
