@@ -1,4 +1,4 @@
-# Top 1 Solution
+# Top 1 Solution (Team Name: ECNU_AIDA)
 
 ## Environment
 - Python==3.7
