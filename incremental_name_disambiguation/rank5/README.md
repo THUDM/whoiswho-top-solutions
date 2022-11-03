@@ -46,3 +46,5 @@ python code/run_lightgbm.py
 python code/run_xgboost.py 
 python code/merge.py
 ```
+
+Results are saved in `work/submit/online/tree/XGBoost/lgb_testa.json`
