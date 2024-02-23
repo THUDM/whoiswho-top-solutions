@@ -1,14 +1,6 @@
 import numpy as np
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import math, copy, time
-from torch.autograd import Variable
-import multiprocessing
 from sklearn.metrics import roc_auc_score, auc, roc_curve,average_precision_score
-from torch_geometric.utils import add_self_loops, degree, softmax, to_dense_adj, dense_to_sparse
-from operator import itemgetter
-from scipy import sparse
 import random
 
 def MAPs(label_lists, score_lists):

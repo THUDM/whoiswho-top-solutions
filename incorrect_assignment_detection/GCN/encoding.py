@@ -7,7 +7,7 @@ from transformers import AutoTokenizer, AutoModel
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--path", type=str, default="pid_to_info_all.json")
+parser.add_argument("--path", type=str, default="dataset/pid_to_info_all.json")
 parser.add_argument("--save_path", type = str, default = "dataset/roberta_embeddings.pkl")
 args = parser.parse_args()
 
@@ -40,5 +40,7 @@ for ii in tqdm(range(0, len(papers), batch_size), total=len(papers)//batch_size)
         tt+=1
         dic_paper_embedding[paper_id] = paper_vec
 
+if not os.exists(args.save_path):
+    os.makedirs(args.save_path)
 with open(args.save_path, "wb") as f:
     pk.dump(dic_paper_embedding, f)

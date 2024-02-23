@@ -8,7 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path", type=str, default="pid_to_info_all.json")
-parser.add_argument("--save_path", type = str, default = "roberta_embeddings.pkl")
+parser.add_argument("--save_path", type = str, default = "dataset/roberta_embeddings.pkl")
 args = parser.parse_args()
 
 with open(args.path, "r", encoding="utf-8") as f:
@@ -18,8 +18,8 @@ batch_size = 5000
 device = torch.device("cuda:0")
 
 # Initialize RoBERTa tokenizer and model
-tokenizer = AutoTokenizer.from_pretrained('/data2/pangyunhe_data/models/AI-ModelScope/roberta-base')
-model = AutoModel.from_pretrained('/data2/pangyunhe_data/models/AI-ModelScope/roberta-base').to(device)
+tokenizer = AutoTokenizer.from_pretrained('roberta-base')
+model = AutoModel.from_pretrained('roberta-base').to(device)
 dic_paper_embedding = {}
 papers = [[key, value] for key,value in papers.items()]
 for ii in tqdm(range(0, len(papers), batch_size), total=len(papers)//batch_size):
