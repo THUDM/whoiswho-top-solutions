@@ -8,7 +8,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--path", type=str, default="pid_to_info_all.json")
-parser.add_argument("--save_path", type = str, default = "roberta_embeddings.pkl")
+parser.add_argument("--save_path", type = str, default = "dataset/roberta_embeddings.pkl")
 args = parser.parse_args()
 
 with open(args.path, "r", encoding="utf-8") as f:

@@ -19,9 +19,9 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def add_arguments(args):
     # essential paras eval_dir
-    args.add_argument('--train_dir', type=str, help="train_dir", default = "train.pkl")
-    args.add_argument('--eval_dir', type=str, help="eval_dir", default = "eval.pkl")
-    args.add_argument('--test_dir', type=str, help="test_dir", default = "test.pkl")
+    args.add_argument('--train_dir', type=str, help="train_dir", default = "dataset/train.pkl")
+    args.add_argument('--eval_dir', type=str, help="eval_dir", default = "dataset/eval.pkl")
+    args.add_argument('--test_dir', type=str, help="test_dir", default = "dataset/test.pkl")
     args.add_argument('--saved_dir', type=str, help="save_dir", default= "saved_model")
     args.add_argument('--log_name', type=str, help="log_name", default = "log")
     # training paras.
@@ -80,6 +80,10 @@ if __name__ == "__main__":
 
     encoder = GCNModel(args.input_dim,args.output_dim).cuda()
     criterion = nn.MSELoss()
+
+    if not os.path.exists(args.saved_dir):
+        os.makedirs(args.saved_dir)
+        
     with open(args.train_dir, 'rb') as files:
         train_data = pickle.load(files)
 

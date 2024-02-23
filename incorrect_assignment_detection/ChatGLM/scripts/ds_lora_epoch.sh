@@ -18,8 +18,8 @@ WARMUP_RATIO=0.1
 SCHEDULAR=cosine
 
 RUN_NAME=text
-BASE_MODEL_PATH=/your_path_to_chatglm/chatglm3-6b-32k
-PUB_PATH=/path_to_pub
+BASE_MODEL_PATH=your_path_to_chatglm/chatglm3-6b-32k
+PUB_PATH=path_to_pub
 TRAIN_PATH=path_to_train_author
 DATESTR=`date +%Y%m%d-%H%M%S`
 OUTPUT_DIR=output/${RUN_NAME}-${DATESTR}-${LR}

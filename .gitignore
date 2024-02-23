@@ -46,6 +46,8 @@ from_scratch/rank3/saveResult/
 incorrect_assignment_detection/*/saved_model
 incorrect_assignment_detection/*/log
 incorrect_assignment_detection/*/*.pkl
+incorrect_assignment_detection/*/dataset/
+incorrect_assignment_detection/log
 
 __pycache__/
 *.py[cod]

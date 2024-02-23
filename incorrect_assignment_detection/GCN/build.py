@@ -1,16 +1,15 @@
-import networkx as nx
+
 import json as js
-import random as rd
 import numpy as np
 import pickle as pk
 from unidecode import unidecode
-from tqdm import tqdm
 import torch
-from torch_geometric.data import Data
 from torch_geometric.data.batch import Batch 
 import multiprocessing as mp
 import re
 import argparse
+import os
+
 puncs = '[!“”"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~—～’]+'
 stopwords = ['at', 'based', 'in', 'of', 'for', 'on', 'and', 'to', 'an', 'using', 'with',
             'the', 'by', 'we', 'be', 'is', 'are', 'can']
@@ -215,8 +214,7 @@ def getdata(orcid):
             paper1_inf = papers_info[paper1_id]
             paper2_inf = papers_info[paper2_id]
             
-            # _, w_coauthor, w_coorg, w_covenue = co_occurance(author_names[orcid]['name'], paper1_inf, paper2_inf)
-            _, w_coauthor, w_coorg, w_covenue = co_occurance('', paper1_inf, paper2_inf)
+            _, w_coauthor, w_coorg, w_covenue = co_occurance(author_names[orcid]['name'], paper1_inf, paper2_inf)
             if w_coauthor + w_coorg + w_covenue == 0:
                 continue
             if(w_coauthor > 0) or (w_coorg) >0 or (w_covenue)>0:
@@ -260,7 +258,7 @@ def getdata(orcid):
         assert edge_index.shape[1] == len(list_edge_y)
         assert features.shape[0] == len(list_y) == len(batch)
         assert 0 not in total_weight
-    else: #如果没有边的话
+    else: #没有边的情况下生成全连接图
         e = [[],[]]
         for i in range(len(all_pappers_id)):
             for j in range(len(all_pappers_id)):
@@ -334,7 +332,7 @@ def norm(data):
                 org = org.lower()
                 org = re.sub(puncs, ' ', org)
                 org = re.sub(r'\s{2,}', ' ', org).strip()
-                org = org.split(' ')[:50]  
+                org = org.split(' ')[:50]  #组织名字太长说明脏数据
                 org = [word for word in org if len(word) > 1]
                 org = [word for word in org if word not in stopwords]
                 org = [word for word in org if word not in stopwords_extend]
@@ -355,39 +353,42 @@ def norm(data):
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser()
-    parser.add_argument('--train_dir', type=str, default='train_author.json')
-    parser.add_argument('--eval_dir', type=str, default='ind_valid_author_ground_truth.json')
-    parser.add_argument('--test_dir', type=str, default='test_author.json')
-    parser.add_argument('--pub_dir', type=str, default='pid_to_info_all.json')
-    parser.add_argument('--embeddings_dir', type=str, default='roberta_embeddings.pkl')
+    parser.add_argument('--train_dir', type=str, default='dataset/train_author.json')
+    parser.add_argument('--eval_dir', type=str, default='dataset/ind_valid_author_ground_truth.json')
+    parser.add_argument('--test_dir', type=str, default='dataset/test_author.json')
+    parser.add_argument('--pub_dir', type=str, default='dataset/pid_to_info_all.json')
+    parser.add_argument('--embeddings_dir', type=str, default='dataset/roberta_embeddings.pkl')
     args = parser.parse_args()  
+    if not os.path.exists('dataset'):
+        os.mkdir('dataset')
     with open(args.pub_dir, "r", encoding = "utf-8") as f:
         papers_info = js.load(f)
-    # clean pub 
-    # with mp.Pool(processes=10) as pool:
-    #     results = pool.map(norm,[value for _,value  in papers_info.items()])
-    # papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
-    # print('done clean pubs')
+    # clean pub
+    with mp.Pool(processes=80) as pool:
+        results = pool.map(norm,[value for _,value  in papers_info.items()])
+    papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
+    print('done clean pubs')
 
     with open(args.embeddings_dir, "rb") as f:
         dic_paper_embedding = pk.load(f)
-    print('done load embeddings')
+    print('done loading embeddings')
 
     #train
     with open(args.train_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'AMiner/dense/train.pkl')
-    print('finish train set')
-
+    build_dataset( 'dataset/train.pkl')
+    print('finish train')
+    
     #test
     with open(args.test_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'AMiner/dense/test.pkl')
-    print('finish test set')
-
+    build_dataset( 'dataset/test.pkl')
+    print('finish test')
+    
     #eval
     with open(args.eval_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'AMiner/dense/eval.pkl')
-    print('all done')
+    build_dataset( 'dataset/eval.pkl')
+    print('done')
