@@ -26,7 +26,7 @@ stopwords_check = ['a', 'was', 'were', 'that', '2', 'key', '1', 'technology', '0
                     'time', 'zhejiang', 'used', 'data', 'these']
 r = '[!“”"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~—～’]+'
 
-# python build_graph.py --train_dir /data2/pangyunhe_data/dataset/check-nd-contest-2023/train_author.json --test_dir /data2/pangyunhe_data/dataset/check-nd-contest-2023/ind_test_author.json --eval_dir /data2/pangyunhe_data/dataset/check-nd-contest-2023/ind_valid_author_ground_truth.json --pub_dir /data2/pangyunhe_data/dataset/check-nd-contest-2023/pid_to_info_all.json
+
 
 
 
@@ -260,7 +260,7 @@ def getdata(orcid):
         assert edge_index.shape[1] == len(list_edge_y)
         assert features.shape[0] == len(list_y) == len(batch)
         assert 0 not in total_weight
-    else: #没有边的情况下生成全连接图
+    else: #如果没有边的话
         e = [[],[]]
         for i in range(len(all_pappers_id)):
             for j in range(len(all_pappers_id)):
@@ -365,29 +365,29 @@ if __name__ == "__main__":
     with open(args.pub_dir, "r", encoding = "utf-8") as f:
         papers_info = js.load(f)
     # clean pub 
-    with mp.Pool(processes=10) as pool:
-        results = pool.map(norm,[value for _,value  in papers_info.items()])
-    papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
-    print('done clean pubs')
+    # with mp.Pool(processes=10) as pool:
+    #     results = pool.map(norm,[value for _,value  in papers_info.items()])
+    # papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
+    # print('done clean pubs')
 
     with open(args.embeddings_dir, "rb") as f:
         dic_paper_embedding = pk.load(f)
-    print('done loading embeddings')
+    print('done load embeddings')
 
     #train
     with open(args.train_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'train.pkl')
+    build_dataset( 'AMiner/dense/train.pkl')
     print('finish train set')
 
     #test
     with open(args.test_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'test.pkl')
+    build_dataset( 'AMiner/dense/test.pkl')
     print('finish test set')
 
     #eval
     with open(args.eval_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
-    build_dataset( 'eval.pkl')
+    build_dataset( 'AMiner/dense/eval.pkl')
     print('all done')

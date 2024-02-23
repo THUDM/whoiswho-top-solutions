@@ -1,0 +1,5 @@
+{
+    "instruction_cluster":"Identify the abnormal text from the text collection according to the following rules:\n1. Divide the text into different categories according to the research content; \n2. Except for the category with the largest number of samples, the remaining categories are all abnormal samples; \n3. Output the index of all abnormal samples in descending order.\nThe text collection is as follows:{}",
+    "instruction_classfication":"Identify the abnormal text from the text collection according to the following rules:\n Here is a paper collections: \n ### {} \n ### Does the paper ### {} ### belong to the main part of these papers, give me an answer between 'yes' or 'no'.",
+    "response":"Based on the context and current title, the answer would be {}."
+}
