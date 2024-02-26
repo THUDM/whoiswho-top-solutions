@@ -8,7 +8,4 @@ python process.py
 python train.py
 ```
 
-Output files are in res.json .
-
-
 
