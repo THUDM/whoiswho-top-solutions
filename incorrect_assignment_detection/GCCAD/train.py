@@ -9,20 +9,12 @@ import os
 import argparse
 import numpy as np
 import torch
-import torch.nn as nn
 from tqdm import tqdm
 import random
 import json
 import pickle
-from collections import defaultdict
-from operator import itemgetter
 import logging
-
-
-from torch_geometric.data import Data, DataLoader
 from torch.optim.lr_scheduler import _LRScheduler
-
-
 from models import  GraphCAD, outlierLoss
 from utils import *
 torch.backends.cudnn.benchmark = True
@@ -197,7 +189,7 @@ if __name__ == "__main__":
             avg_test_contras_loss = np.mean(np.array(test_contras_loss))
             avg_test_lp_loss = np.mean(np.array(test_lp_loss)) 
         
-            auc, maps = new_MAPs(test_gt, scores_list)
+            auc, maps = MAPs(test_gt, scores_list)
             logger.info("Epoch: {} Auc: {:.6f} Maps: {:.6f} Max-Auc: {:.6f} Max-Maps: {:.6f}".format(epoch_num, auc, maps, max_auc, max_map))
             
             if maps > max_map or auc > max_auc:
