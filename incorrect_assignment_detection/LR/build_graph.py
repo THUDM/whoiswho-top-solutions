@@ -1,12 +1,8 @@
-import networkx as nx
 import json as js
-import random as rd
 import numpy as np
 import pickle as pk
 from unidecode import unidecode
-from tqdm import tqdm
 import torch
-from torch_geometric.data import Data
 from torch_geometric.data.batch import Batch 
 import multiprocessing as mp
 import re
