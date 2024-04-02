@@ -36,7 +36,7 @@ from transformers import (
 from trainer import LoRATrainer
 from arguments import ModelArguments, DataTrainingArguments, GLMTrainingArguments
 from peft import get_peft_model, LoraConfig, TaskType
-from utils import sanity_check, INDDataSet, DataCollatorForIND, compute_metrics
+from utils import INDDataSet, DataCollatorForIND
 logger = logging.getLogger(__name__)
 
 def main():
@@ -86,26 +86,15 @@ def main():
 
     with open(data_args.pub_data, "r" , encoding = "utf-8") as f:
         pub_data = json.load(f)
-    with open(data_args.train_data, "r", encoding="utf-8") as f: #从author数据中sample出来的训练数据
+    with open(data_args.train_data, "r", encoding="utf-8") as f: 
         train_data = json.load(f)
-    if data_args.eval_data is not None:
-        with open(data_args.eval_data, "r", encoding="utf-8") as f: #从author数据中sample出来的训练数据
-            eval_data = json.load(f)
-        eval_dataset = INDDataSet(
-            (eval_data,pub_data),
-            tokenizer,
-            data_args.max_source_length,
-            data_args.max_target_length,
-        )
+
     train_dataset = INDDataSet(
         (train_data,pub_data),
         tokenizer,
         data_args.max_source_length,
         data_args.max_target_length,
     )
-    # print(f"Train dataset size: {len(train_dataset)}")
-    # sanity_check(train_dataset[0]['input_ids'], train_dataset[0]['labels'], tokenizer)
-
     peft_config = LoraConfig(
         task_type=TaskType.CAUSAL_LM,
         inference_mode=False,
@@ -124,25 +113,15 @@ def main():
         padding=False,
     )
 
-    # Initialize our Trainer
-    if data_args.eval_data is None:
-        trainer = LoRATrainer(
-            model=model,
-            args=training_args,
-            train_dataset=train_dataset,
-            tokenizer=tokenizer,
-            data_collator=data_collator,
-        )
-    else:
-        trainer = LoRATrainer(
-            model=model,
-            args=training_args,
-            train_dataset=train_dataset,
-            eval_dataset=eval_dataset,
-            tokenizer=tokenizer,
-            data_collator=data_collator,
-            compute_metrics= compute_metrics,
-        )
+
+    trainer = LoRATrainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_dataset,
+        tokenizer=tokenizer,
+        data_collator=data_collator,
+    )
+
     # breakpoint() #加断点进入调试
     checkpoint = None
     if training_args.resume_from_checkpoint is not None:

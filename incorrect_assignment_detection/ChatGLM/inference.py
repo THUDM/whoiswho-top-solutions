@@ -12,13 +12,12 @@ import tqdm
 from metric import compute_metric
 import argparse
 
-# 创建一个解析器对象
 parser = argparse.ArgumentParser()
-parser.add_argument('--lora_path', help='The path to the lora file',default="/workspace/pangyunhe/source_code/finetune_basemodel_demo/2024-1-5latest/checkpoint-2250")
+parser.add_argument('--lora_path', help='The path to the lora file',default="saved_dir/checkpoint-100")
 parser.add_argument('--model_path',default='ZhipuAI/chatglm3-6b-32k')
 parser.add_argument('--pub_path', help='The path to the pub file',default='test_pub.json')
 parser.add_argument('--eval_path',default='eval_data.json')
-
+parser.add_argument('--saved_dir',default='eval_result')
 args = parser.parse_args()
 
 checkpoint = args.lora_path.split('/')[-1]
@@ -42,7 +41,7 @@ with open(args.eval_path, "r", encoding="utf-8") as f:
 eval_dataset = IND4EVAL(
     (eval_data,pub_data),
     tokenizer,
-    max_source_length = 16000,
+    max_source_length = 25000,
     max_target_length = 128,
 ) 
 print('done reading dataset')
@@ -62,46 +61,32 @@ dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size = batch_size ,
 val_data = accelerator.prepare_data_loader(dataloader, device_placement=True)
 model = accelerator.prepare_model(model)
 result = []
-print('start evaluate')
+
+
+YES_TOKEN_IDS = tokenizer.convert_tokens_to_ids("yes")
+NO_TOKEN_IDS = tokenizer.convert_tokens_to_ids("no")
+
 with torch.no_grad():
-
     for index,batch in enumerate(val_data):
-        batch_input, author, pub, label = batch
+        batch_input, author, pub = batch
 
-        response = model.generate(**batch_input, max_length=batch_input['input_ids'].shape[-1] + 128, return_dict_in_generate=True, output_scores=True)
-        # tokenizer.decode(response[0], skip_special_tokens=True)
-        YES_TOKEN_IDS = tokenizer.convert_tokens_to_ids("yes")
-        NO_TOKEN_IDS = tokenizer.convert_tokens_to_ids("no")
+        response = model.generate(**batch_input, max_length=batch_input['input_ids'].shape[-1] + 2, return_dict_in_generate=True, output_scores=True)
+
         yes_prob, no_prob = response.scores[0][:,YES_TOKEN_IDS],response.scores[0][:,NO_TOKEN_IDS]
-        pred = yes_prob.ge(no_prob).to(int)
-        node_result = [(author[i],pub[i],pred[i].item(),yes_prob[i].item(),no_prob[i].item(),label[i]) for i in range(batch_size)]
+        logit = yes_prob/(yes_prob+no_prob)
+        node_result = [(author[i],pub[i],logit[i].item()) for i in range(batch_size)]
         batch_result = accelerator.gather_for_metrics(node_result)
         if accelerator.is_main_process:
             result.extend(batch_result)
-if accelerator.is_main_process: 
-    with open(f'./eval_result/result-{checkpoint}.json', 'w') as f:
-        json.dump(result, f)
 
+if accelerator.is_main_process: 
+    if not os.path.exists(args.saved_dir):
+        os.makedirs(args.saved_dir)
     res_list = {}
     for i in result:
-        [author,pub,pred,yes_prob,no_prob,label] = i
-        if author not in res_list.keys():
-            res_list[author] = {}
-            res_list[author]['normal_data'] ={}
-            res_list[author]['outliers'] ={}
-        logit = yes_prob/(yes_prob+no_prob)
-        if pred:
-            res_list[author]['normal_data'][pub]= logit
-        else:
-            res_list[author]['outliers'][pub]= logit
-    mean_AUC,mAP,acc, f1 = compute_metric(res_list,res_list)
-    res_write = {
-        "checkpoint":args.lora_path,
-        "AUC":mean_AUC,
-        "mAP":mAP,
-        "acc":acc,
-        "f1":f1
-    }
-
-    with open(f'./result.json', 'a+') as f:
-        json.dump(res_write, f)
+        [aid,pid,logit] = i
+        if aid not in res_list.keys():
+            res_list[aid] = {}
+        res_list[aid][pid] = logit
+    with open(f'{args.saved_dir}/result-{checkpoint}.json', 'w') as f:
+        json.dump(res_list, f)

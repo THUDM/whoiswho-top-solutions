@@ -1,10 +1,3 @@
-"""
-from Chen Bo, Zhang jing et al., GCCAD: Graph Contrastive Coding for Anomaly Detection,TKDE 2023
-
-Some large graph with more than 500000 edges with cause invitable OOM, so graphs with edges_num>500000 are ignored during train process and grpah with edge_nums>2000000 are ignored during inference(only one, use logit 0.5 as result).  
-"""
-
-
 import os
 import argparse
 import numpy as np
@@ -24,8 +17,8 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 def add_arguments(args):
     # essential paras
     args.add_argument('--train_dir', type=str, help="train_dir", default = "train.pkl")
-    args.add_argument('--eval_dir', type=str, help="eval_dir", default = "eval.pkl")
-    args.add_argument('--test_dir', type=str, help="test_dir", default = "test.pkl")
+    args.add_argument('--eval_dir', type=str, help="eval_dir", default = None)
+    args.add_argument('--test_dir', type=str, help="test_dir", default = None)
     args.add_argument('--saved_dir', type=str, help="log_name", default= "saved_model")
     args.add_argument('--log_name', type=str, help="log_name", default = "log")
 
@@ -34,7 +27,6 @@ def add_arguments(args):
     args.add_argument('--seed', type=int, help="seed", default=1)
     args.add_argument('--lr', type=float, help="learning rate", default=5e-4)
     args.add_argument('--min_lr', type=float, help="min lr", default=2e-4)
-    args.add_argument('--bs', type=int, help="batch size", default=1)
     args.add_argument('--input_dim', type=int, help="input dimension", default=768)
     args.add_argument('--out_dim', type=int, help="output dimension", default=768)
     args.add_argument('--verbose', type=int, help="eval", default=1)
@@ -96,18 +88,24 @@ if __name__ == "__main__":
 
     encoder = GraphCAD(logger, args, args.input_dim, args.out_dim, args.outer_layer, args.inner_layer, is_global = args.is_global, is_edge = args.is_edge, pooling= args.pooling).cuda()
     criterion = outlierLoss(args, logger, is_lp = args.is_lp, lp_weight = args.lp_weight).cuda()
+    
     with open(args.train_dir, 'rb') as files:
         train_data = pickle.load(files)
 
-    with open(args.eval_dir, 'rb') as files:
-        eval_data = pickle.load(files)
-    
-    logger.info("# Batch: {} - {}".format(len(train_data), len(train_data) / args.bs))
+    if args.eval_dir is not None:
+        with open(args.eval_dir, 'rb') as files:
+            eval_data = pickle.load(files)
+    else: #split train and valid
+        random.shuffle(train_data)
+        eval_data = train_data[int(len(train_data)*0.7):]
+        train_data = train_data[:int(len(train_data)*0.7)]
+
+    logger.info("# Batch: {} - {}".format(len(train_data), len(train_data) ))
     optimizer = torch.optim.Adam([{'params': encoder.parameters(), 'lr': args.lr}])
     optimizer.zero_grad()
 
-    max_step = int(len(train_data) / args.bs * 10)
-    logger.info("max_step: %d, %d, %d, %d"%(max_step, len(train_data), args.bs, args.epochs))
+    max_step = int(len(train_data) * 10)
+    logger.info("max_step: %d, %d,  %d"%(max_step, len(train_data), args.epochs))
     scheduler = WarmupLinearLR(optimizer, max_step, min_lr=[args.min_lr])
 
     encoder.train()
@@ -121,24 +119,19 @@ if __name__ == "__main__":
         batch_contras_loss = []
         batch_lp_loss = []
         batch_edge_score = []
-
-
         random.shuffle(train_data)
         for tmp_train in tqdm(train_data):
 
             batch_data, edge_labels,_,_ = tmp_train
             batch_data = batch_data.cuda()
-            if edge_labels.shape[0] > 500000:
-                continue
             node_outputs, adj_matrix, adj_weight, labels, batch_item = batch_data.x, batch_data.edge_index, batch_data.edge_attr.squeeze(-1), batch_data.y, batch_data.batch
             
             node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
             overall_loss, _, contras_loss, lp_loss = criterion(output_loss, centroid_loss, edge_prob, edge_labels, adj_matrix, batch_item, labels, node_outputs, centroid)
-            # overall_loss.backward()
-            if lp_loss.isnan():
-                continue
-            overall_loss = overall_loss / args.bs
             
+            if lp_loss.isnan(): # edge labels are all 1
+                overall_loss = contras_loss 
+
             batch_loss.append(overall_loss.item())
             batch_contras_loss.append(contras_loss.item())
             batch_lp_loss.append(lp_loss.item())
@@ -147,7 +140,6 @@ if __name__ == "__main__":
             optimizer.step()
             scheduler.step()
                 
-
         avg_batch_loss = np.mean(np.array(batch_loss))
         avg_batch_contras_loss = np.mean(np.array(batch_contras_loss))
         avg_batch_lp_loss = np.mean(np.array(batch_lp_loss))
@@ -164,31 +156,18 @@ if __name__ == "__main__":
             scores_list = []
             with torch.no_grad():
                 for tmp_test in tqdm(eval_data):
-                    each_sub, edge_labels,_ , _ = tmp_test
+                    each_sub,_,_,_ = tmp_test
                     each_sub = each_sub.cuda()
-                    if edge_labels.shape[0]> 2e6:
-                        test_gt.append(labels)
-                        scores_list.append(np.ones_like(labels)*0.5)
-                        continue
                     node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y, each_sub.batch
                     node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
                     centroid = centroid.squeeze(0)
-                    centroid_loss = centroid_loss.squeeze(0)
-                    test_each_overall_loss, scores, test_each_contras_loss, test_each_lp_loss = criterion(output_loss, centroid_loss, edge_prob, edge_labels, adj_matrix, batch_item, labels, node_outputs, centroid)
+                    scores = criterion.get_score(node_outputs, centroid)
 
                     scores = scores.detach().cpu().numpy()
                     scores_list.append(scores)
                     labels = labels.detach().cpu().numpy()
                     test_gt.append(labels)
 
-                    test_loss.append(test_each_overall_loss.item())
-                    test_contras_loss.append(test_each_contras_loss.item())
-                    test_lp_loss.append(test_each_lp_loss.item())
-
-            avg_test_loss = np.mean(np.array(test_loss))
-            avg_test_contras_loss = np.mean(np.array(test_contras_loss))
-            avg_test_lp_loss = np.mean(np.array(test_lp_loss)) 
-        
             auc, maps = MAPs(test_gt, scores_list)
             logger.info("Epoch: {} Auc: {:.6f} Maps: {:.6f} Max-Auc: {:.6f} Max-Maps: {:.6f}".format(epoch_num, auc, maps, max_auc, max_map))
             
@@ -198,12 +177,12 @@ if __name__ == "__main__":
                 max_epoch = epoch_num
                 max_map = maps if maps > max_map else max_map
                 max_auc = auc if auc > max_auc else max_auc
-                # torch.save(encoder, f"{args.saved_dir}/model_{str(epoch_num)}.pt")
+                torch.save(encoder, f"{args.saved_dir}/model_{str(epoch_num)}.pt")
                 
                 logger.info("***************** Epoch: {} Max Auc: {:.6f} Maps: {:.6f} *******************".format(epoch_num, max_auc, max_map))
             else:
                 early_stop_counter += 1
-                if early_stop_counter >= 5:
+                if early_stop_counter >= 10:
                     print("Early stop!")
                     break     
             encoder.train()
@@ -221,16 +200,14 @@ if __name__ == "__main__":
     with torch.no_grad():
         for tmp_test in tqdm(test_data):
 
-            each_sub, edge_labels, author_id, pub_id  = tmp_test
+            each_sub, _, author_id, pub_id  = tmp_test
             each_sub = each_sub.cuda()
-            if edge_labels.shape[0]>2000000:
-                scores = np.ones(labels.shape[0])*0.5
-            node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y, each_sub.batch
+
+            node_outputs, adj_matrix, adj_weight, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.batch
             node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
 
             centroid = centroid.squeeze(0)
-            centroid_loss = centroid_loss.squeeze(0)
-            test_each_overall_loss, scores, test_each_contras_loss, test_each_lp_loss = criterion(output_loss, centroid_loss, edge_prob, edge_labels, adj_matrix, batch_item, labels, node_outputs, centroid)
+            scores = criterion.get_score(node_outputs, centroid)
             
             result[author_id] = {}
             for i in range(len(pub_id)):

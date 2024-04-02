@@ -28,21 +28,16 @@ def clean_name(name):
     name = name.lower()
     new_name = ""
     for a in name:
-        # print("1:", a)
         if a.isalpha():
             new_name += a
         else:
             new_name = new_name.strip()
             new_name += " "
-        # print("2:", new_name)
     return new_name.strip()
     
 def simple_name_match(n1,n2):
     n1_set = set(n1.split())
     n2_set = set(n2.split())
-    # if(len())
-    # print("n1: {} n2: {}.".format(n1_set, n2_set))
-    # print(n2_set)
 
     if(len(n1_set) != len(n2_set)):
         return False
@@ -52,12 +47,9 @@ def simple_name_match(n1,n2):
     return False
     
 def org_venue_features(n1_attr, n2_attr, score_dict, default_value):
-    # n1_attr_set = set(' '.join(re.sub(r'[\W_]',' ', n1_attr).split()).strip().split())
-    # n2_attr_set = set(' '.join(re.sub(r'[\W_]',' ', n2_attr).split()).strip().split())
+
     n1_attr_set = set(n1_attr.split())
     n2_attr_set = set(n2_attr.split())
-
-
 
     inter_words = set(n1_attr_set) & set(n2_attr_set)
     scores = 0.0
@@ -75,7 +67,6 @@ def org_venue_features(n1_attr, n2_attr, score_dict, default_value):
         for each in divide:
             divide_score += score_dict.get(each, default_value)
         
-        # if(divide_score * config["edge_thres"] <= scores):
         if(divide_score * 1 <= scores):
             scores = scores / divide_score
         else:
@@ -83,14 +74,11 @@ def org_venue_features(n1_attr, n2_attr, score_dict, default_value):
     return scores
     
 def co_occurance(core_name, paper1, paper2):
-    # coauthor
-    # print("core: ", core_name)
-    # core_name = multi_edge_weight.clean_name(core_name).strip()
+
     core_name = clean_name(core_name)
     coauthor_weight = 0
     coorg_weight = 0
     covenue_weight = 0
-    # core_name = multi_edge_weight.clean_name(core_name)
     ori_n1_authors = [clean_name(paper1["authors"][ins_index]["name"]).strip() for ins_index in range(min(len(paper1["authors"]), 50))]
     ori_n2_authors = [clean_name(paper2["authors"][ins_index]["name"]).strip() for ins_index in range(min(len(paper2["authors"]), 50))]
     
@@ -104,54 +92,20 @@ def co_occurance(core_name, paper1, paper2):
         if simple_name_match(core_name,name):
             ori_n2_authors.remove(name)
 
-
-    # n1_authors = []
-    # n2_authors = []
-    # for each in ori_n1_authors:
-    #     if(multi_edge_weight.simple_name_match(core_name, each)):
-    #         continue
-    #     n1_authors.append(each)
-    # print("n1_authors: ", n1_authors)
-    # for each in ori_n2_authors:
-    #     if(multi_edge_weight.simple_name_match(core_name, each)):
-    #         continue
-    #     n2_authors.append(each)
-    # print("n2_authors: ", n2_authors)
-    
-    # _, n1_authors = MatchName(core_name, ori_n1_authors, True)
-    # _, n2_authors = MatchName(core_name, ori_n2_authors, True)
     paper1_authors = ori_n1_authors
     paper2_authors = ori_n2_authors
-    # print("ori: ", ori_n1_authors)
-    # print("n1: ", n1_authors)
-    # print("ori: ", ori_n2_authors)
-    # print("n2: ", n2_authors)
-    # exit()
+
     whole_authors = min(len(set(paper1_authors)), len(set(paper2_authors)))
-    # whole_authors -= 1
-    # n1_coauthor = get_coauthor(core_name, )
-    # n2_coauthor = get_coauthor()
-    # print(n1_authors, n2_authors)
     matched = []
     for per_n1 in paper1_authors:
 
         for per_n2 in paper2_authors:
-            # print(per_n1, per_n2)
-            # if(MatchName(per_n1, per_n2, True)):
-            #     coauthor_weight += 1
-
             if(simple_name_match(per_n1, per_n2)):
-                # print("per_n1: {} per_n2:{} ".format(per_n1, per_n2))
                 matched.append((per_n1, per_n2))
                 coauthor_weight += 1
                 break
-    # exit()
-    # if core_name in paper1_authors and core_name in paper2_authors:
-    #     coauthor_weight -= 1
-    #     coauthor_weight = max(coauthor_weight, 0)
+
     coauthor_weight = coauthor_weight/max(whole_authors, 1)
-    # print(coauthor_weight)
-    # co-org
     
     def concat_str(list_strs):
         strs = ' '.join([clean_name(each).strip() for each in list_strs]).strip()
@@ -159,36 +113,26 @@ def co_occurance(core_name, paper1, paper2):
     
     n1_org_str = ' '.join([clean_name(concat_str(each.get("orgs", ""))).strip() for each in paper1["authors"][:50] if each.get("orgs", "")!=None]).strip()
     n2_org_str = ' '.join([clean_name(concat_str(each.get("orgs", ""))).strip() for each in paper2["authors"][:50] if each.get("orgs", "")!=None]).strip()
-    # n1_org_str = multi_edge_weight.clean_name(n1["authors"][n1_name_index].get("org", "")).strip()
-    # n2_org_str = multi_edge_weight.clean_name(n2["authors"][n2_name_index].get("org", "")).strip()
     coorg_weight = org_venue_features(n1_org_str, n2_org_str, {}, 14.37)
-    # coorg_weight = org_venue_features(n1_org_str, n2_org_str, self.org_tfidf, 14.37)
-    
+
     # co_venue
     n1_venue = paper1.get("venue", "")
     n2_venue = paper2.get("venue", "")
     if(n1_venue !=None) and (n2_venue!= None):
         covenue_weight = org_venue_features(clean_name(n1_venue).strip(), clean_name(n2_venue).strip(), {}, 10.42)
-        # covenue_weight = org_venue_features(clean_name(n1_venue).strip(), clean_name(n2_venue).strip(), self.ven_tfidf, 10.42)
-
-    # coorg_weight = 1
-    # covenue_weight = 1
-
     return matched, coauthor_weight, coorg_weight, covenue_weight
 
 def getdata(orcid):
-    
-    if "normal_data" in author_names[orcid]:
-
+    trainset = True 
+    if "normal_data" in author_names[orcid]: # train set
         normal_papers_id = author_names[orcid]["normal_data"]
         outliers_id = author_names[orcid]["outliers"]
-
-        all_pappers_id = normal_papers_id + outliers_id #list
-    elif "papers" in author_names[orcid]:
+        all_pappers_id = normal_papers_id + outliers_id
+    elif "papers" in author_names[orcid]: # test set
         all_pappers_id = author_names[orcid]["papers"]
-        
+        trainset = False
+
     total_matrix, total_weight = [], []
-    
     for ii in range(len(all_pappers_id)):
         paper1_id = all_pappers_id[ii]
         for jj in range(len(all_pappers_id)):
@@ -199,7 +143,6 @@ def getdata(orcid):
             paper1_inf = papers_info[paper1_id]
             paper2_inf = papers_info[paper2_id]
             
-            # _, w_coauthor, w_coorg, w_covenue = co_occurance(author_names[orcid]['name'], paper1_inf, paper2_inf)
             _, w_coauthor, w_coorg, w_covenue = co_occurance('', paper1_inf, paper2_inf)
             if w_coauthor + w_coorg + w_covenue == 0:
                 continue
@@ -213,33 +156,28 @@ def getdata(orcid):
     #重新编号
     re_num = dict(zip(all_pappers_id, list(range(num_papers))))
     # edge_index
-    if "normal_data" in author_names[orcid]:
+    if trainset:
         set_norm = set(normal_papers_id)
         set_out = set(outliers_id)
         list_edge_y = [0 if (i in set_out) or (j in set_out) else 1 for i,j in total_matrix]
         
-    else:
-        list_edge_y = [1] * len(total_matrix)
 
     total_matrix = [[re_num[i],re_num[j]] for i,j in total_matrix]
     edge_index = np.array(total_matrix, dtype=np.int64).T
     
-    # node labels\
-    if "normal_data" in author_names[orcid]:
-
+    # node labels
+    if trainset:
         list_y = len(normal_papers_id) * [1] + len(outliers_id) * [0]
     else: 
         list_y =len(all_pappers_id) *[1]
 
-    # build batch
+    #batch
     batch = [0] * num_papers
+
     # edge weight
     total_weight = [x[0] for x in total_weight]
 
-    if edge_index.size != 0:
-        assert edge_index.shape[1] == len(list_edge_y)
-        assert 0 not in total_weight
-    else: #如果没有边的话
+    if edge_index.size == 0: #if no edge, for rare cases, add default self loop with low weight
         e = [[],[]]
         for i in range(len(all_pappers_id)):
             for j in range(len(all_pappers_id)):
@@ -248,28 +186,27 @@ def getdata(orcid):
                     e[1].append(j)
         edge_index = e
         total_weight = [0.0001] * len(e[0])
-        list_edge_y =[]
-        for i in range(len(edge_index[0])):
-            if list_y[edge_index[0][i]] == 1 and list_y[edge_index[1][i]] == 1:
-                list_edge_y.append(1)
-            else:
-                list_edge_y.append(0)
+        if trainset:
+            list_edge_y =[]
+            for i in range(len(edge_index[0])):
+                if list_y[edge_index[0][i]] == 1 and list_y[edge_index[1][i]] == 1:
+                    list_edge_y.append(1)
+                else:
+                    list_edge_y.append(0)
     #build data
     data = Batch(edge_index=torch.tensor(edge_index), 
                 edge_attr=torch.tensor(total_weight, dtype = torch.float32),
                 y=torch.tensor(list_y),
                 batch=torch.tensor(batch))
     
-    edge_label = torch.tensor(list_edge_y)
+    edge_label = torch.tensor(list_edge_y) if trainset else None
 
     return (data,edge_label,orcid,all_pappers_id)
 
 def build_dataset(path):
     
     keys_list = list(author_names.keys())
-    
-
-    with mp.Pool(processes=80) as pool:
+    with mp.Pool(processes=10) as pool:  #multiprocessing
         results = pool.map(getdata,keys_list)
     with open(path, "wb") as f:
         pk.dump(results, f)
@@ -277,7 +214,7 @@ def build_dataset(path):
     
 def norm(data):
     """
-    normalize venue, name and org only, for build cleaned graph
+    normalize venue, name and org, for build cleaned graph
     {
         id: str
         title: str
@@ -343,12 +280,13 @@ if __name__ == "__main__":
     
     with open(args.pub_dir, "r", encoding = "utf-8") as f:
         papers_info = js.load(f)
-    # clean pub 
-    # with mp.Pool(processes=80) as pool:
+    
+    # clean pub, if needed
+    # with mp.Pool(processes=10) as pool:
     #     results = pool.map(norm,[value for _,value  in papers_info.items()])
     # papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
     # print('done clean pubs')
-    print('start building graph')
+
     #train
     with open(args.train_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)

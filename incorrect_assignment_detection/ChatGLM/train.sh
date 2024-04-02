@@ -4,23 +4,23 @@ set -ex
 
 LR=3e-5
 NUM_GPUS=8
-LORA_RANK=128
-LORA_ALPHA=256
-LORA_DROUPOUT=0.1
+LORA_RANK=32
+LORA_ALPHA=64
+LORA_DROUPOUT=0.05
 
-MAX_SOURCE_LEN=16000
-MAX_TARGET_LEN=128
+MAX_SOURCE_LEN=25000 # longer context contains more paper titles, but cost longer train time and larger memory usage
+MAX_TARGET_LEN=16
 DEV_BATCH_SIZE=1
 GRAD_ACCUMULARION_STEPS=16
-EPOCH=2
+EPOCH=4
 SAVE_INTERVAL=250
-WARMUP_RATIO=0.1
+WARMUP_RATIO=0.03
 SCHEDULAR=cosine
 
 RUN_NAME=text
 BASE_MODEL_PATH=your_path_to_chatglm/chatglm3-6b-32k
-PUB_PATH=path_to_pub
-TRAIN_PATH=path_to_train_author
+PUB_PATH=path_to_pub/train_pub.json
+TRAIN_PATH=path_to_train_author/train_author.json
 DATESTR=`date +%Y%m%d-%H%M%S`
 OUTPUT_DIR=output/${RUN_NAME}-${DATESTR}-${LR}
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)
@@ -28,6 +28,7 @@ MASTER_PORT=$(shuf -n 1 -i 10000-65535)
 
 mkdir -p $OUTPUT_DIR
 
+# deepspeed --include localhost:0 finetune.py\
 torchrun --standalone --nnodes=1 --nproc_per_node=$NUM_GPUS  finetune.py \
     --train_format input-output \
     --pub_data $PUB_PATH \

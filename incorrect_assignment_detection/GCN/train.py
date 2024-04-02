@@ -20,8 +20,8 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 def add_arguments(args):
     # essential paras eval_dir
     args.add_argument('--train_dir', type=str, help="train_dir", default = "dataset/train.pkl")
-    args.add_argument('--eval_dir', type=str, help="eval_dir", default = "dataset/eval.pkl")
-    args.add_argument('--test_dir', type=str, help="test_dir", default = "dataset/test.pkl")
+    args.add_argument('--eval_dir', type=str, help="eval_dir", default = None)
+    args.add_argument('--test_dir', type=str, help="test_dir", default = None)
     args.add_argument('--saved_dir', type=str, help="save_dir", default= "saved_model")
     args.add_argument('--log_name', type=str, help="log_name", default = "log")
     # training paras.
@@ -75,21 +75,22 @@ if __name__ == "__main__":
     setup_seed(args.seed)
     logger = logging_builder(args)
     logger.info(args)
-    print(args)
     os.makedirs(os.path.join(os.getcwd(), args.saved_dir), exist_ok = True)
 
     encoder = GCNModel(args.input_dim,args.output_dim).cuda()
     criterion = nn.MSELoss()
 
-    if not os.path.exists(args.saved_dir):
-        os.makedirs(args.saved_dir)
-        
     with open(args.train_dir, 'rb') as files:
         train_data = pickle.load(files)
 
-    with open(args.eval_dir, 'rb') as files:
-        eval_data = pickle.load(files)
-    
+    if args.eval_dir is not None:
+        with open(args.eval_dir, 'rb') as files:
+            eval_data = pickle.load(files)
+    else: #split train and valid
+        random.shuffle(train_data)
+        eval_data = train_data[int(len(train_data)*0.7):]
+        train_data = train_data[:int(len(train_data)*0.7)]
+
     logger.info("# Batch: {} - {}".format(len(train_data), len(train_data) / args.bs))
     optimizer = torch.optim.Adam([{'params': encoder.parameters(), 'lr': args.lr}])
     optimizer.zero_grad()
@@ -114,16 +115,15 @@ if __name__ == "__main__":
         random.shuffle(train_data)
         for tmp_train in tqdm(train_data):
             batch_index += 1
-            batch_data, edge_labels,_,_ = tmp_train
+            batch_data, _,_,_ = tmp_train
             batch_data = batch_data.cuda()
-            node_outputs, adj_matrix, adj_weight, labels, batch_item = batch_data.x, batch_data.edge_index, batch_data.edge_attr.squeeze(-1), batch_data.y.float().cuda(), batch_data.batch
+            node_outputs, adj_matrix, adj_weight, labels, batch_item = batch_data.x, batch_data.edge_index, batch_data.edge_attr.squeeze(-1), batch_data.y.float(), batch_data.batch
             
             logit = encoder(node_outputs, adj_matrix)
             logit = logit.squeeze(-1)
             loss = criterion(logit, labels)
             
             batch_loss.append(loss.item())
-           
             if (batch_index + 1) % args.bs == 0: 
                 optimizer.zero_grad()
                 loss.backward()   
@@ -143,9 +143,9 @@ if __name__ == "__main__":
             scores_list = []
             with torch.no_grad():
                 for tmp_test in tqdm(eval_data):
-                    each_sub, edge_labels,_ , _ = tmp_test
+                    each_sub, _,_ , _ = tmp_test
                     each_sub = each_sub.cuda()
-                    node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y.float().cuda(), each_sub.batch
+                    node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y.float(), each_sub.batch
                     logit = encoder(node_outputs, adj_matrix)
                     logit = logit.squeeze(-1)
                     loss = criterion(logit, labels)
@@ -178,25 +178,25 @@ if __name__ == "__main__":
             optimizer.zero_grad()
     logger.info("***************** Max_Epoch: {} Max Auc: {:.6f} Maps: {:.6f}*******************".format(max_epoch, max_auc, max_map))
 
+    if args.test_dir is not None:
+        encoder = torch.load(f"{args.saved_dir}/model_{str(max_epoch)}.pt")
+        encoder.eval()
+        with open(args.test_dir, 'rb') as f:
+            test_data = pickle.load(f)
+        result = {}
 
-    encoder = torch.load(f"{args.saved_dir}/model_{str(max_epoch)}.pt")
-    encoder.eval()
-    with open(args.test_dir, 'rb') as f:
-        test_data = pickle.load(f)
-    result = {}
+        with torch.no_grad():
+            for tmp_test in tqdm(test_data):
 
-    with torch.no_grad():
-        for tmp_test in tqdm(test_data):
+                each_sub, _ , author_id, pub_id  = tmp_test
+                each_sub = each_sub.cuda()
+                node_outputs, adj_matrix, adj_weight, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.batch
+                logit = encoder(node_outputs,adj_matrix)
+                logit = logit.squeeze(-1)
 
-            each_sub, edge_labels, author_id, pub_id  = tmp_test
-            each_sub = each_sub.cuda()
-            node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y, each_sub.batch
-            logit = encoder(node_outputs,adj_matrix)
-            logit = logit.squeeze(-1)
-
-            result[author_id] = {}
-            for i in range(len(pub_id)):
-                result[author_id][pub_id[i]]=logit[i].item()
-    
-    with open(f'{args.saved_dir}/res.json', 'w') as f:
-        json.dump(result, f)
+                result[author_id] = {}
+                for i in range(len(pub_id)):
+                    result[author_id][pub_id[i]]=logit[i].item()
+        
+        with open(f'{args.saved_dir}/res.json', 'w') as f:
+            json.dump(result, f)

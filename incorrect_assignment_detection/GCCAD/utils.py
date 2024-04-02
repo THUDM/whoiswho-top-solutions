@@ -19,9 +19,7 @@ def MAPs(label_lists, score_lists):
     total_outliers = 0
     for sub_labels, sub_scores in zip(label_lists, score_lists):
         assert sub_labels.shape[0] == sub_scores.shape[0]
-
         auc = roc_auc_score(sub_labels,sub_scores)
-
         ap = average_precision_score(sub_labels,sub_scores)
         w = (1-sub_labels).sum()
         total_ap += w * ap
