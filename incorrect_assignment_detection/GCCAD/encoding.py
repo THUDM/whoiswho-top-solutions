@@ -27,12 +27,22 @@ for ii in tqdm(range(0, len(papers), batch_size), total=len(papers)//batch_size)
     batch_papers = papers[ii: ii + batch_size]
     texts = [paper[1]["title"] for paper in batch_papers]
     
-    inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True, max_length=30)
+    inputs = tokenizer(texts, return_tensors="pt", padding=True, truncation=True, max_length=50,add_special_tokens=True)
+
     inputs = {key: value.to(device) for key, value in inputs.items()}
     with torch.no_grad():
         outputs = model(**inputs)
 
-    embedding = outputs.last_hidden_state[:, 0, :].cpu().numpy()
+    # take mean pooling of all tokens as title embedding
+    embedding = outputs.last_hidden_state[:,:-1,:]
+    attention_mask = inputs["attention_mask"][:,1:]
+    embedding  = (embedding * attention_mask.unsqueeze(-1)).sum(dim = 1)/attention_mask.sum(dim = 1).unsqueeze(-1)
+    assert torch.any(torch.isnan(embedding)) == False
+    embedding = embedding.cpu().numpy()
+    
+    # or take cls token
+    # embedding = outputs.last_hidden_state[:, 0, :].cpu().numpy()  
+
     tt = 0
     for jj in range(ii, ii+len(batch_papers)):
         paper_id = papers[jj][0]

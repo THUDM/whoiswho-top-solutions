@@ -90,7 +90,7 @@ def co_occurance(core_name, paper1, paper2):
         if simple_name_match(core_name,name):
             ori_n2_authors.remove(name)
 
-    whole_authors = min(len(set(ori_n1_authors)), len(set(ori_n2_authors)))
+    whole_authors = max(len(set(ori_n1_authors+ori_n2_authors)),1)
 
     matched = []
     for per_n1 in ori_n1_authors:
@@ -100,21 +100,24 @@ def co_occurance(core_name, paper1, paper2):
                 coauthor_weight += 1
                 break
 
-    coauthor_weight = coauthor_weight/max(whole_authors, 1)
+    coauthor_weight = coauthor_weight/whole_authors
     
-    def concat_str(list_strs):
-        strs = ' '.join([clean_name(each).strip() for each in list_strs]).strip()
-        return strs
-    
-    n1_org_str = ' '.join([clean_name(concat_str(each.get("orgs", ""))).strip() for each in paper1["authors"][:50] if each.get("orgs", "")!=None]).strip()
-    n2_org_str = ' '.join([clean_name(concat_str(each.get("orgs", ""))).strip() for each in paper2["authors"][:50] if each.get("orgs", "")!=None]).strip()
-    coorg_weight = org_venue_features(n1_org_str, n2_org_str, {}, 14.37)
-    
-    # co_venue
-    n1_venue = paper1.get("venue", "")
-    n2_venue = paper2.get("venue", "")
-    if(n1_venue !=None) and (n2_venue!= None):
-        covenue_weight = org_venue_features(clean_name(n1_venue).strip(), clean_name(n2_venue).strip(), {}, 10.42)
+
+    def jaccard_similarity(list1, list2):
+        if not list1 or not list2:
+            return 0
+        intersection = len(set(list1) & set(list2))
+        union = len(set(list1)) + len(set(list2)) - intersection
+        return intersection / union if union != 0 else 0
+
+    n1_org = ' '.join([i['org'] for i in paper1['authors'] if i['org'] != '']).split()
+    n2_org = ' '.join([i['org'] for i in paper2['authors'] if i['org'] != '']).split()
+
+    n1_venue = paper1['venue'].split()
+    n2_venue = paper2['venue'].split()
+
+    coorg_weight = jaccard_similarity(n1_org,n2_org)
+    covenue_weight = jaccard_similarity(n1_venue,n2_venue)
 
     return matched, coauthor_weight, coorg_weight, covenue_weight
 
@@ -142,9 +145,9 @@ def getdata(orcid):
             _, w_coauthor, w_coorg, w_covenue = co_occurance(author_names[orcid]['name'], paper1_inf, paper2_inf)
             if w_coauthor + w_coorg + w_covenue == 0:
                 continue
-            if(w_coauthor > 0) or (w_coorg) >0 or (w_covenue)>0:
+            else:
                 total_matrix.append([paper1_id, paper2_id])
-                total_weight.append([(w_coauthor + w_coorg + w_covenue) / 3])
+                total_weight.append([w_coauthor , w_coorg , w_covenue])
 
     num_papers = len(all_pappers_id)
 
@@ -162,6 +165,7 @@ def getdata(orcid):
     total_matrix = [[re_num[i],re_num[j]] for i,j in total_matrix]
     edge_index = np.array(total_matrix, dtype=np.int64).T
     
+
     # features
     list_x = [dic_paper_embedding[x] for x in all_pappers_id]
     features = np.stack(list_x)
@@ -174,8 +178,6 @@ def getdata(orcid):
 
     # build batch
     batch = [0] * num_papers
-    # edge weight
-    total_weight = [x[0] for x in total_weight]
 
     if edge_index.size == 0:  #if no edge, for rare cases, add default self loop with low weight
         e = [[],[]]
@@ -185,7 +187,7 @@ def getdata(orcid):
                     e[0].append(i)
                     e[1].append(j)
         edge_index = e
-        total_weight = [0.0001] * len(e[0])
+        total_weight = [[0.0001,0.0001,0.0001]] * len(e[0])
         if trainset:
             list_edge_y =[]
             for i in range(len(edge_index[0])):
@@ -199,7 +201,7 @@ def getdata(orcid):
                 edge_attr=torch.tensor(total_weight, dtype = torch.float32),
                 y=torch.tensor(list_y) if list_y is not None else None,
                 batch=torch.tensor(batch))
-    
+    assert torch.any(torch.isnan(data.x)) == False
     edge_label = torch.tensor(list_edge_y) if trainset else None
 
     return (data,edge_label,orcid,all_pappers_id)
@@ -284,17 +286,17 @@ if __name__ == "__main__":
         papers_info = js.load(f)
 
     # clean pub, if needed
-    # with mp.Pool(processes=10) as pool:
-    #     results = pool.map(norm,[value for _,value  in papers_info.items()])
-    # papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
-    # print('done clean pubs')
+    with mp.Pool(processes=10) as pool:
+        results = pool.map(norm,[value for _,value  in papers_info.items()])
+    papers_info = {k:v for k,v in zip(papers_info.keys(),results)}
+    print('done clean pubs')
     
     with open(args.embeddings_dir, "rb") as f:
         dic_paper_embedding = pk.load(f)
     print('done loading embeddings')
 
     #train
-    with open(args.train_dir, "r", encoding="utf-8") as f:
+    with open(args.author_dir, "r", encoding="utf-8") as f:
         author_names = js.load(f)
     build_dataset(args.save_dir)
     print(f'done process {args.author_dir}')

@@ -33,6 +33,12 @@ def add_arguments(args):
     args.add_argument('--input_dim', type=int, help="input dimension", default=768)
     args.add_argument('--output_dim', type=int, help="output dimension", default=768)
     args.add_argument('--verbose', type=int, help="eval", default=1)
+    
+    # dataset graph paras
+    args.add_argument('--usecoo', help="use co-organization edge", action='store_true')
+    args.add_argument('--usecov', help="use co-venue edge", action='store_true')
+    args.add_argument('--threshold', type=float, help="threshold of coo and cov", default=0)
+    
     args = args.parse_args()
     return args
 
@@ -118,6 +124,19 @@ if __name__ == "__main__":
             batch_data, _,_,_ = tmp_train
             batch_data = batch_data.cuda()
             node_outputs, adj_matrix, adj_weight, labels, batch_item = batch_data.x, batch_data.edge_index, batch_data.edge_attr.squeeze(-1), batch_data.y.float(), batch_data.batch
+            if args.threshold > 0:
+                flag = adj_weight[:,1:]<args.threshold
+                adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+            if args.usecoo and args.usecov:
+                adj_weight = adj_weight.mean(dim = -1)
+            elif args.usecoo:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+            elif args.usecov:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+            else:
+                adj_weight = adj_weight[:,0]
+            flag = torch.nonzero(adj_weight).squeeze(-1)
+            adj_matrix = adj_matrix.T[flag].T
             
             logit = encoder(node_outputs, adj_matrix)
             logit = logit.squeeze(-1)
@@ -146,6 +165,21 @@ if __name__ == "__main__":
                     each_sub, _,_ , _ = tmp_test
                     each_sub = each_sub.cuda()
                     node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y.float(), each_sub.batch
+                    
+                    if args.threshold > 0:
+                        flag = adj_weight[:,1:]<args.threshold
+                        adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+                    if args.usecoo and args.usecov:
+                        adj_weight = adj_weight.mean(dim = -1)
+                    elif args.usecoo:
+                        adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+                    elif args.usecov:
+                        adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+                    else:
+                        adj_weight = adj_weight[:,0]
+                    flag = torch.nonzero(adj_weight).squeeze(-1)
+                    adj_matrix = adj_matrix.T[flag].T                    
+                    
                     logit = encoder(node_outputs, adj_matrix)
                     logit = logit.squeeze(-1)
                     loss = criterion(logit, labels)
@@ -191,6 +225,23 @@ if __name__ == "__main__":
                 each_sub, _ , author_id, pub_id  = tmp_test
                 each_sub = each_sub.cuda()
                 node_outputs, adj_matrix, adj_weight, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.batch
+                
+                if args.threshold > 0:
+                    flag = adj_weight[:,1:]<args.threshold
+                    adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+                if args.usecoo and args.usecov:
+                    adj_weight = adj_weight.mean(dim = -1)
+                elif args.usecoo:
+                    adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+                elif args.usecov:
+                    adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+                else:
+                    adj_weight = adj_weight[:,0]
+                flag = torch.nonzero(adj_weight).squeeze(-1)
+                adj_matrix = adj_matrix.T[flag].T
+                adj_weight = adj_weight[flag]
+                edge_labels = edge_labels[flag]
+
                 logit = encoder(node_outputs,adj_matrix)
                 logit = logit.squeeze(-1)
 

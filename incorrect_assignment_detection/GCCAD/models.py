@@ -7,7 +7,6 @@ import pickle
 
 from torch_geometric.nn import GCNConv, MessagePassing, GINConv, GATConv
 from torch_geometric.utils import add_self_loops, degree, softmax, to_dense_adj, dense_to_sparse
-from torch_scatter import scatter_add
 import math
 import numpy as np
 import pyro

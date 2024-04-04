@@ -13,13 +13,13 @@ from utils import *
 torch.backends.cudnn.benchmark = True
 torch.autograd.set_detect_anomaly(True)
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
+# python train.py --train_dir ../GCCAD/train.pkl --test_dir ../GCCAD/valid.pkl
 def add_arguments(args):
     # essential paras
     args.add_argument('--train_dir', type=str, help="train_dir", default = "train.pkl")
     args.add_argument('--eval_dir', type=str, help="eval_dir", default = None)
     args.add_argument('--test_dir', type=str, help="test_dir", default = None)
-    args.add_argument('--saved_dir', type=str, help="log_name", default= "saved_model")
+    args.add_argument('--saved_dir', type=str, help="model save dir", default= "saved_model")
     args.add_argument('--log_name', type=str, help="log_name", default = "log")
 
     # training paras.
@@ -39,8 +39,12 @@ def add_arguments(args):
     args.add_argument('--pooling', type=str, help="pooing_type", choices=['memory', 'avg', 'min', 'max'], default = "memory")
 
     args.add_argument('--is_lp', help="whether to use link prediction loss", action = "store_false")
-    args.add_argument("--lp_weight", type = float, help="the weight of link prediction loss", default=0.2)
+    args.add_argument("--lp_weight", type = float, help="the weight of link prediction loss", default=0.1)
 
+    # dataset graph paras
+    args.add_argument('--usecoo', help="use co-organization edge", action='store_true')
+    args.add_argument('--usecov', help="use co-venue edge", action='store_true')
+    args.add_argument('--threshold', type=float, help="threshold of coo and cov", default=0)
     args = args.parse_args()
     return args
 
@@ -124,22 +128,39 @@ if __name__ == "__main__":
 
             batch_data, edge_labels,_,_ = tmp_train
             batch_data = batch_data.cuda()
+            edge_labels = edge_labels.cuda()
             node_outputs, adj_matrix, adj_weight, labels, batch_item = batch_data.x, batch_data.edge_index, batch_data.edge_attr.squeeze(-1), batch_data.y, batch_data.batch
-            
+
+            if args.threshold > 0:
+                flag = adj_weight[:,1:]<args.threshold
+                adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+            if args.usecoo and args.usecov:
+                adj_weight = adj_weight.mean(dim = -1)
+            elif args.usecoo:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+            elif args.usecov:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+            else:
+                adj_weight = adj_weight[:,0]
+            flag = torch.nonzero(adj_weight).squeeze(-1)
+            adj_matrix = adj_matrix.T[flag].T
+            adj_weight = adj_weight[flag]
+            edge_labels = edge_labels[flag]
+
             node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
             overall_loss, _, contras_loss, lp_loss = criterion(output_loss, centroid_loss, edge_prob, edge_labels, adj_matrix, batch_item, labels, node_outputs, centroid)
             
             if lp_loss.isnan(): # edge labels are all 1
                 overall_loss = contras_loss 
-
+            
             batch_loss.append(overall_loss.item())
             batch_contras_loss.append(contras_loss.item())
-            batch_lp_loss.append(lp_loss.item())
+            batch_lp_loss.append(lp_loss.item() if not lp_loss.isnan() else 0)
             optimizer.zero_grad()
             overall_loss.backward()   
             optimizer.step()
             scheduler.step()
-                
+
         avg_batch_loss = np.mean(np.array(batch_loss))
         avg_batch_contras_loss = np.mean(np.array(batch_contras_loss))
         avg_batch_lp_loss = np.mean(np.array(batch_lp_loss))
@@ -159,6 +180,22 @@ if __name__ == "__main__":
                     each_sub,_,_,_ = tmp_test
                     each_sub = each_sub.cuda()
                     node_outputs, adj_matrix, adj_weight, labels, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.y, each_sub.batch
+
+                    if args.threshold > 0:
+                        flag = adj_weight[:,1:]<args.threshold
+                        adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+                    if args.usecoo and args.usecov:
+                        adj_weight = adj_weight.mean(dim = -1)
+                    elif args.usecoo:
+                        adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+                    elif args.usecov:
+                        adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+                    else:
+                        adj_weight = adj_weight[:,0]
+                    flag = torch.nonzero(adj_weight).squeeze(-1)
+                    adj_matrix = adj_matrix.T[flag].T
+                    adj_weight = adj_weight[flag]            
+
                     node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
                     centroid = centroid.squeeze(0)
                     scores = criterion.get_score(node_outputs, centroid)
@@ -204,6 +241,23 @@ if __name__ == "__main__":
             each_sub = each_sub.cuda()
 
             node_outputs, adj_matrix, adj_weight, batch_item = each_sub.x, each_sub.edge_index, each_sub.edge_attr.squeeze(-1), each_sub.batch
+
+            # select feature 
+            if args.threshold > 0:
+                flag = adj_weight[:,1:]<args.threshold
+                adj_weight[:,1:] = torch.where(flag,torch.tensor(0.0),adj_weight[:,1:])
+            if args.usecoo and args.usecov:
+                adj_weight = adj_weight.mean(dim = -1)
+            elif args.usecoo:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,1])/2
+            elif args.usecov:
+                adj_weight = (adj_weight[:,0] + adj_weight[:,2])/2
+            else:
+                adj_weight = adj_weight[:,0]
+            flag = torch.nonzero(adj_weight).squeeze(-1)
+            adj_matrix = adj_matrix.T[flag].T
+            adj_weight = adj_weight[flag]
+
             node_outputs, adj_weight, centroid, output_loss, centroid_loss, edge_prob = encoder(node_outputs, adj_matrix, adj_weight, batch_item, 1)
 
             centroid = centroid.squeeze(0)
