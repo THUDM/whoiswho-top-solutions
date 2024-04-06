@@ -59,7 +59,7 @@ class INDDataSet(Dataset):
         profile = self.author[self.train_keys[index]['author']]['normal_data'] +self.author[self.train_keys[index]['author']]['outliers']
         profile = [self.pub[p]['title'] for p in profile if p != self.train_keys[index]['pub']] #delete disambiguate paper
         random.shuffle(profile)
-        breakpoint()
+        # breakpoint()
         # limit context token lenth up to max_len - 500
         tokenized_profile = [self.tokenizer.tokenize(i) for i in profile]
         len_profile = [len(i) for i in tokenized_profile]
