@@ -31,7 +31,6 @@ for ii in tqdm(range(0, len(papers), batch_size), total=len(papers)//batch_size)
     inputs = {key: value.to(device) for key, value in inputs.items()}
     with torch.no_grad():
         outputs = model(**inputs)
-    breakpoint()
     embedding = outputs.last_hidden_state[:, 0, :].cpu().numpy()
     tt = 0
     for jj in range(ii, ii+len(batch_papers)):
