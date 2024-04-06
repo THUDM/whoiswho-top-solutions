@@ -18,9 +18,9 @@ WARMUP_RATIO=0.03
 SCHEDULAR=cosine
 
 RUN_NAME=text
-BASE_MODEL_PATH=your_path_to_chatglm/chatglm3-6b-32k
-PUB_PATH=path_to_pub/train_pub.json
-TRAIN_PATH=path_to_train_author/train_author.json
+BASE_MODEL_PATH=THUDM/chatglm3-6b-32k
+PUB_PATH=dataset/pid_to_info_all.json
+TRAIN_PATH=dataset/train_author.json
 DATESTR=`date +%Y%m%d-%H%M%S`
 OUTPUT_DIR=output/${RUN_NAME}-${DATESTR}-${LR}
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)
