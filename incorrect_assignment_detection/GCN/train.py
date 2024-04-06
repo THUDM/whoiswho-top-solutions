@@ -240,7 +240,7 @@ if __name__ == "__main__":
                 flag = torch.nonzero(adj_weight).squeeze(-1)
                 adj_matrix = adj_matrix.T[flag].T
                 adj_weight = adj_weight[flag]
-                edge_labels = edge_labels[flag]
+                # edge_labels = edge_labels[flag]
 
                 logit = encoder(node_outputs,adj_matrix)
                 logit = logit.squeeze(-1)
