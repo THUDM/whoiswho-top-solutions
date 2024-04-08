@@ -54,7 +54,7 @@ def collate_fn(batch):
         return_tensors="pt",
         add_special_tokens=False,
     )
-    return batch_input,batch['author'],batch['pub'],batch['label']
+    return batch_input,batch['author'],batch['pub']
 
 dataloader = torch.utils.data.DataLoader(eval_dataset, batch_size = batch_size ,collate_fn=collate_fn)
 val_data = accelerator.prepare_data_loader(dataloader, device_placement=True)
