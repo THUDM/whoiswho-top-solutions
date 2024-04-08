@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# accelerate launch --num_processes 1 test_inference.py --lora_path /workspace/pangyunhe/source_code/finetune_basemodel_demo/2024-1-5latest/checkpoint-2250 > inference.log
 
 from peft import PeftModel,get_peft_model
 from transformers import AutoTokenizer, AutoModel
@@ -47,7 +46,7 @@ eval_dataset = IND4EVAL(
 print('done reading dataset')
 
 def collate_fn(batch):
-    batch = {k: [item[k] for item in batch] for k in ('input_ids', 'author', 'pub', 'label')}
+    batch = {k: [item[k] for item in batch] for k in ('input_ids', 'author', 'pub')}
     batch_input = tokenizer(
         batch['input_ids'],
         padding='longest',
@@ -70,7 +69,7 @@ with torch.no_grad():
     for index,batch in enumerate(val_data):
         batch_input, author, pub = batch
 
-        response = model.generate(**batch_input, max_length=batch_input['input_ids'].shape[-1] + 2, return_dict_in_generate=True, output_scores=True)
+        response = model.generate(**batch_input, max_length=batch_input['input_ids'].shape[-1] + 16, return_dict_in_generate=True, output_scores=True)
 
         yes_prob, no_prob = response.scores[0][:,YES_TOKEN_IDS],response.scores[0][:,NO_TOKEN_IDS]
         logit = yes_prob/(yes_prob+no_prob)
