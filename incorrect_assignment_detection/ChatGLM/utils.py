@@ -186,8 +186,13 @@ class IND4EVAL(Dataset):
         return len(self.val_set)
     
     def __getitem__(self, index):
-        profile = self.author[self.train_keys[index]['author']]['normal_data'] +self.author[self.train_keys[index]['author']]['outliers']
-        profile = [self.pub[p]['title'] for p in profile if p != self.train_keys[index]['pub']] #delete disambiguate paper
+        if "normal_data" in self.author[self.val_set[index]['author']]:
+            profile = self.author[self.val_set[index]['author']]['normal_data'] +self.author[self.val_set[index]['author']]['outliers']
+        elif "papers" in self.author[self.val_set[index]['author']]:
+            profile = self.author[self.val_set[index]['author']]['papers']
+        else:
+            raise("No profile found")
+        profile = [self.pub[p]['title'] for p in profile if p != self.val_set[index]['pub']] #delete disambiguate paper
         random.shuffle(profile)
 
         tokenized_profile = [self.tokenizer.tokenize(i) for i in profile]
