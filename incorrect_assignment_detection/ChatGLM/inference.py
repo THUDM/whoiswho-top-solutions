@@ -34,7 +34,7 @@ print('done loading peft model')
 YES_TOKEN_IDS = tokenizer.convert_tokens_to_ids("yes")
 NO_TOKEN_IDS = tokenizer.convert_tokens_to_ids("no")
 
-with open(args.pub_data_path, "r" , encoding = "utf-8") as f:
+with open(args.pub_path, "r" , encoding = "utf-8") as f:
     pub_data = json.load(f)
 with open(args.eval_path, "r", encoding="utf-8") as f: 
     eval_data = json.load(f)
