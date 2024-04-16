@@ -38,7 +38,7 @@ export CUDA_VISIBLE_DEVICES='?'  # specify which GPU(s) to be used
 # Method 1 & 2: GCN & GCCAD
 cd GCCAD  # or ``cd GCN``
 python encoding.py --path ../dataset/pid_to_info_all.json --save_path ../dataset/roberta_embeddings.pkl
-python build_graph --author_dir ../dataset/train_author.json  --save_dir ../dataset/train.pkl
+python build_graph.py --author_dir ../dataset/train_author.json  --save_dir ../dataset/train.pkl
 python build_graph.py
 python train.py  --train_dir ../dataset/train.pkl  --test_dir ../dataset/valid.pkl
 
