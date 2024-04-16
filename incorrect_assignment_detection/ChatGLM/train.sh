@@ -3,7 +3,7 @@
 set -ex
 
 LR=3e-5
-NUM_GPUS=8
+NUM_GPUS=7
 LORA_RANK=32
 LORA_ALPHA=64
 LORA_DROUPOUT=0.05
@@ -19,8 +19,8 @@ SCHEDULAR=cosine
 
 RUN_NAME=text
 BASE_MODEL_PATH=THUDM/chatglm3-6b-32k
-PUB_PATH=dataset/pid_to_info_all.json
-TRAIN_PATH=dataset/train_author.json
+PUB_PATH=../dataset/pid_to_info_all.json
+TRAIN_PATH=../dataset/train_author.json
 DATESTR=`date +%Y%m%d-%H%M%S`
 OUTPUT_DIR=output/${RUN_NAME}-${DATESTR}-${LR}
 MASTER_PORT=$(shuf -n 1 -i 10000-65535)

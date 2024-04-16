@@ -19,7 +19,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def add_arguments(args):
     # essential paras eval_dir
-    args.add_argument('--train_dir', type=str, help="train_dir", default = "dataset/train.pkl")
+    args.add_argument('--train_dir', type=str, help="train_dir", default = "../dataset/train.pkl")
     args.add_argument('--eval_dir', type=str, help="eval_dir", default = None)
     args.add_argument('--test_dir', type=str, help="test_dir", default = None)
     args.add_argument('--saved_dir', type=str, help="save_dir", default= "saved_model")

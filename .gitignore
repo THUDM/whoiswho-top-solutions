@@ -1,5 +1,8 @@
 # Byte-compiled / optimized / DLL files
 
+incorrect_assignment_detection/ChatGLM/output/
+incorrect_assignment_detection/ChatGLM/eval_result/
+
 incremental_name_disambiguation/rank1/data/
 incremental_name_disambiguation/rank1/catboost_info/
 incremental_name_disambiguation/rank1/feat/

@@ -277,10 +277,10 @@ def norm(data):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--author_dir', type=str, default='dataset/train_author.json')
-    parser.add_argument('--pub_dir', type=str, default='dataset/pid_to_info_all.json')
-    parser.add_argument('--save_dir', type=str, default='dataset/train.pkl')
-    parser.add_argument('--embeddings_dir', type=str, default='dataset/roberta_embeddings.pkl')
+    parser.add_argument('--author_dir', type=str, default='../dataset/ind_valid_author.json')
+    parser.add_argument('--pub_dir', type=str, default='../dataset/pid_to_info_all.json')
+    parser.add_argument('--save_dir', type=str, default='../dataset/valid.pkl')
+    parser.add_argument('--embeddings_dir', type=str, default='../dataset/roberta_embeddings.pkl')
     args = parser.parse_args()  
     with open(args.pub_dir, "r", encoding = "utf-8") as f:
         papers_info = js.load(f)
