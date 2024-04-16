@@ -16,9 +16,14 @@ git clone https://github.com/THUDM/whoiswho-top-solutions.git
 cd whoiswho-top-solutions/incorrect_assignment_detection
 ```
 
-For ``GCN`` and ``GCCAD``, 
+For ``GCN``, 
 ```bash
 pip install -r GCN/requirements.txt
+```
+
+For ``GCCAD``,
+```bash
+pip install -r GCCAD/requirements.txt
 ```
 
 For ``ChatGLM``,
