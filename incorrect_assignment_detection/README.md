@@ -37,6 +37,8 @@ Unzip the dataset and put files into ``dataset/`` directory.
 
 ## Run Baselines for [KDD Cup 2024](https://www.biendata.xyz/competition/ind_kdd_2024/)
 
+We provide three baselines: [GCN](https://arxiv.org/abs/1609.02907), [GCCAD](https://arxiv.org/abs/2108.07516), and [ChatGLM](https://arxiv.org/abs/2210.02414) [[Hugging Face]](https://huggingface.co/THUDM/chatglm3-6b-32k). A fine-tuned ChatGLM checkpoint via Lora can be downloaded from [Aliyun](https://open-data-set.oss-cn-beijing.aliyuncs.com/oag-benchmark/kddcup-2024/IND-WhoIsWho/ind_chatglm_ckpt_1000.zip).
+
 ```bash
 export CUDA_VISIBLE_DEVICES='?'  # specify which GPU(s) to be used
 
